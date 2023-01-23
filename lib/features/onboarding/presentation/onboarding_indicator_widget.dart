@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:internity/core/constant.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../core/riverpod_and_hooks.dart';
@@ -18,8 +19,10 @@ class _OnboardingIndicatorWidgetState
     extends ConsumerState<OnboardingIndicatorWidget> {
   @override
   Widget build(BuildContext context) {
-    final isLastPage =
-        ref.watch(onboardingPageIndex) == buildOnboardingItems().length - 1;
+    final onboardingPageIndex = ref.watch(onboardingPageIndexProvider);
+    final onboardingPageCount = ref.watch(onboardingPageCountProvider);
+
+    final isLastPage = onboardingPageIndex == onboardingPageCount - 1;
 
     return Container(
       alignment: const Alignment(0, 0.95),
@@ -35,7 +38,7 @@ class _OnboardingIndicatorWidgetState
             child: TextButton(
               onPressed: () {
                 widget.controller.animateToPage(
-                  buildOnboardingItems().length - 1,
+                  onboardingPageCount - 1,
                   duration: const Duration(milliseconds: 500),
                   curve: Curves.easeInOut,
                 );
@@ -43,7 +46,7 @@ class _OnboardingIndicatorWidgetState
               child: const Text(
                 'Lewati',
                 style: TextStyle(
-                  color: Color(0xFF22272E),
+                  color: Color(primaryTextColor),
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
@@ -54,9 +57,9 @@ class _OnboardingIndicatorWidgetState
           // Page Indicator
           SmoothPageIndicator(
             controller: widget.controller, // PageControllers
-            count: buildOnboardingItems().length,
+            count: onboardingPageCount,
             effect: const ExpandingDotsEffect(
-              activeDotColor: Color(0xFF22272E),
+              activeDotColor: Color(primaryTextColor),
               dotColor: Color(0xFFD9D9D9),
               dotHeight: 10,
               dotWidth: 15,
@@ -79,9 +82,9 @@ class _OnboardingIndicatorWidgetState
               );
             },
             child: Text(
-              isLastPage ? 'Mulai' : 'Lanjut',
+              isLastPage ? 'Mulai!' : 'Lanjut',
               style: const TextStyle(
-                color: Color(0xFF22272E),
+                color: Color(primaryTextColor),
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
