@@ -53,7 +53,8 @@ class _OnboardingItemWidgetState extends ConsumerState<OnboardingItemWidget> {
                 widgetFooter: Container(
                   margin: const EdgeInsets.only(top: 20),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: (() =>
+                        Navigator.pushReplacementNamed(context, '/login')),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(primaryTextColor),
                       shape: RoundedRectangleBorder(

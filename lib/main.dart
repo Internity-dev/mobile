@@ -2,16 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
+import 'pages/login_pages.dart';
 import 'pages/onboarding_pages.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((_) {
-    runApp(const ProviderScope(child: MyApp()));
-  });
+  await SentryFlutter.init(
+    (options) {
+      options.dsn =
+          'https://d275a05777f0454baf3e145c366b184b@o4504376921096192.ingest.sentry.io/4504558263992320';
+      // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+      // We recommend adjusting this value in production.
+      options.tracesSampleRate = 1.0;
+    },
+    appRunner: () =>
+        SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+            .then((_) {
+      runApp(const ProviderScope(child: MyApp()));
+    }),
+  );
 }
 
 // Note: MyApp is a HookConsumerWidget, from hooks_riverpod.
@@ -28,10 +39,12 @@ class MyApp extends HookConsumerWidget {
         ),
       ),
       home: const SafeArea(
-        child: Scaffold(
-          body: OnboardingPage(),
-        ),
+        child: OnboardingPage(),
       ),
+      routes: {
+        '/login': (context) => const LoginPage(),
+        '/onboard': (context) => const OnboardingPage(),
+      },
     );
   }
 }
