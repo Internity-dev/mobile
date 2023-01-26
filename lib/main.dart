@@ -13,8 +13,6 @@ Future<void> main() async {
     (options) {
       options.dsn =
           'https://d275a05777f0454baf3e145c366b184b@o4504376921096192.ingest.sentry.io/4504558263992320';
-      // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
-      // We recommend adjusting this value in production.
       options.tracesSampleRate = 1.0;
     },
     appRunner: () =>
@@ -25,7 +23,6 @@ Future<void> main() async {
   );
 }
 
-// Note: MyApp is a HookConsumerWidget, from hooks_riverpod.
 class MyApp extends HookConsumerWidget {
   const MyApp({super.key});
 
