@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:internity/features/onboarding/presentation/onboarding_indicator_widget.dart';
 
-import '../core/riverpod_and_hooks.dart';
+import '../shared/riverpod_and_hooks.dart';
 import '../features/onboarding/presentation/onboarding_item_widget.dart';
 
 class OnboardingPage extends HookConsumerWidget {

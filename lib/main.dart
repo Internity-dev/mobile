@@ -4,9 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
+import 'shared/constant.dart';
 import 'pages/login_pages.dart';
 import 'pages/onboarding_pages.dart';
 import 'pages/register_pages.dart';
+import 'theme/colors.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,6 +37,7 @@ class MyApp extends HookConsumerWidget {
         textTheme: GoogleFonts.poppinsTextTheme(
           Theme.of(context).textTheme,
         ),
+        scaffoldBackgroundColor: const Color(primaryBackgroundColor),
       ),
       home: const SafeArea(
         child: OnboardingPage(),

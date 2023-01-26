@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:internity/core/constant.dart';
+import 'package:internity/shared/constant.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../../../core/riverpod_and_hooks.dart';
+import '../../../shared/riverpod_and_hooks.dart';
+import '../../../theme/colors.dart';
 import '../provider/onboarding_provider.dart';
 
 class OnboardingIndicatorWidget extends StatefulHookConsumerWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:internity/core/constant.dart';
-import 'package:internity/core/riverpod_and_hooks.dart';
+import 'package:internity/shared/constant.dart';
+import 'package:internity/shared/riverpod_and_hooks.dart';
 
 import '../features/login/presentation/login_item_widget.dart';
 
@@ -11,7 +11,6 @@ class LoginPage extends HookConsumerWidget {
     return GestureDetector(
       onTap: (() => FocusScope.of(context).unfocus()),
       child: const Scaffold(
-        backgroundColor: Color(primaryBackgroundColor),
         body: SingleChildScrollView(
           child: LoginItemWidget(),
         ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:internity/core/constant.dart';
-import 'package:internity/core/riverpod_and_hooks.dart';
+import 'package:internity/shared/constant.dart';
+import 'package:internity/shared/riverpod_and_hooks.dart';
+
+import '../../../theme/colors.dart';
 
 class RegisterItemWidget extends StatefulHookConsumerWidget {
   const RegisterItemWidget({super.key});
