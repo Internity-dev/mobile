@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:internity/core/constant.dart';
 import 'package:internity/core/riverpod_and_hooks.dart';
 
-import '../features/login/presentation/login_item_widget.dart';
+import '../features/register/presentation/register_item_widget.dart';
 
-class LoginPage extends HookConsumerWidget {
-  const LoginPage({super.key});
+class RegisterPage extends HookConsumerWidget {
+  const RegisterPage({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
@@ -13,7 +13,7 @@ class LoginPage extends HookConsumerWidget {
       child: const Scaffold(
         backgroundColor: Color(primaryBackgroundColor),
         body: SingleChildScrollView(
-          child: LoginItemWidget(),
+          child: RegisterItemWidget(),
         ),
       ),
     );

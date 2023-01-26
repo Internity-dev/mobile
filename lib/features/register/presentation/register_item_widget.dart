@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:internity/core/constant.dart';
 import 'package:internity/core/riverpod_and_hooks.dart';
 
-class LoginItemWidget extends StatefulHookConsumerWidget {
-  const LoginItemWidget({super.key});
+class RegisterItemWidget extends StatefulHookConsumerWidget {
+  const RegisterItemWidget({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _LoginItemWidgetState();
+      _RegisterItemWidgetState();
 }
 
-class _LoginItemWidgetState extends ConsumerState<LoginItemWidget> {
+class _RegisterItemWidgetState extends ConsumerState<RegisterItemWidget> {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
@@ -184,8 +184,7 @@ class _LoginItemWidgetState extends ConsumerState<LoginItemWidget> {
                           padding: EdgeInsets.zero,
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
-                        onPressed: () =>
-                            Navigator.pushNamed(context, '/register'),
+                        onPressed: () {},
                         child: const Text(
                           'Daftar',
                           style: TextStyle(

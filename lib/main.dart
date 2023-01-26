@@ -6,6 +6,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'pages/login_pages.dart';
 import 'pages/onboarding_pages.dart';
+import 'pages/register_pages.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,6 +42,7 @@ class MyApp extends HookConsumerWidget {
       routes: {
         '/login': (context) => const LoginPage(),
         '/onboard': (context) => const OnboardingPage(),
+        '/register': (context) => const RegisterPage(),
       },
     );
   }
