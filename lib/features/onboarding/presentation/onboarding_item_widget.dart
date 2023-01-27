@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../../shared/constant.dart';
 import '../../../shared/riverpod_and_hooks.dart';
 import '../../../theme/colors.dart';
 import '../provider/onboarding_provider.dart';

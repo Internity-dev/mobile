@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:internity/shared/constant.dart';
 import 'package:internity/shared/riverpod_and_hooks.dart';
 
 import '../features/login/presentation/login_item_widget.dart';

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:internity/shared/constant.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../shared/riverpod_and_hooks.dart';
