@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:internity/shared/riverpod_and_hooks.dart';
 
+import '../../../shared/widget/underline_text_field.dart';
 import '../../../theme/colors.dart';
 
 class LoginItemWidget extends StatefulHookConsumerWidget {
@@ -17,7 +18,6 @@ class _LoginItemWidgetState extends ConsumerState<LoginItemWidget> {
     final formKey = GlobalKey<FormState>();
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
-    final isObscure = useState(true);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
@@ -60,51 +60,20 @@ class _LoginItemWidgetState extends ConsumerState<LoginItemWidget> {
                         // Email Input
                         Container(
                           margin: const EdgeInsets.only(top: 10),
-                          child: TextFormField(
-                            style: const TextStyle(
-                              color: Color(primaryTextColor),
-                              fontSize: 14,
-                            ),
-                            cursorColor: const Color(primaryTextColor),
+                          child: UnderlineTextField(
                             controller: emailController,
-                            decoration: const InputDecoration(
-                              hintText: 'Masukan Email',
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(primaryTextColor),
-                                ),
-                              ),
-                            ),
+                            hintText: "Masukan Email",
+                            inputType: TextInputType.emailAddress,
                           ),
                         ),
 
                         // Password Input
                         Container(
                           margin: const EdgeInsets.only(top: 10),
-                          child: TextFormField(
-                            cursorColor: const Color(primaryTextColor),
-                            style: const TextStyle(
-                              color: Color(primaryTextColor),
-                              fontSize: 14,
-                            ),
+                          child: UnderlineTextField(
                             controller: passwordController,
-                            obscureText: isObscure.value,
-                            decoration: InputDecoration(
-                              hintText: 'Masukan Password',
-                              focusedBorder: const UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(primaryTextColor),
-                                ),
-                              ),
-                              suffixIcon: GestureDetector(
-                                onTap: () => isObscure.value = !isObscure.value,
-                                child: Icon(
-                                  isObscure.value
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                ),
-                              ),
-                            ),
+                            hintText: "Masukan Password",
+                            inputType: TextInputType.visiblePassword,
                           ),
                         ),
                       ],

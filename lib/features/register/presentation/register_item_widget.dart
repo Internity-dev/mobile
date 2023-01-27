@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:internity/shared/riverpod_and_hooks.dart';
 
+import '../../../shared/widget/underline_text_field.dart';
 import '../../../theme/colors.dart';
 
 class RegisterItemWidget extends StatefulHookConsumerWidget {
@@ -15,9 +16,10 @@ class _RegisterItemWidgetState extends ConsumerState<RegisterItemWidget> {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormState>();
+    final nameController = useTextEditingController();
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
-    final isObscure = useState(true);
+    final confirmPasswordController = useTextEditingController();
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
@@ -28,7 +30,7 @@ class _RegisterItemWidgetState extends ConsumerState<RegisterItemWidget> {
             margin: const EdgeInsets.only(top: 20),
             child: const Image(
               width: 250,
-              image: AssetImage('assets/images/login_page.png'),
+              image: AssetImage('assets/images/register_page.png'),
             ),
           ),
 
@@ -41,7 +43,7 @@ class _RegisterItemWidgetState extends ConsumerState<RegisterItemWidget> {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: const Text(
-                    'Hi, Selamat Datang',
+                    'Ayo Mulai Karirmu!',
                     textAlign: TextAlign.left,
                     style: TextStyle(
                       fontSize: 20,
@@ -57,54 +59,43 @@ class _RegisterItemWidgetState extends ConsumerState<RegisterItemWidget> {
                     key: formKey,
                     child: Column(
                       children: [
+                        // Name Input
+                        Container(
+                          margin: const EdgeInsets.only(top: 10),
+                          child: UnderlineTextField(
+                            controller: nameController,
+                            hintText: "Masukan Nama",
+                            inputType: TextInputType.name,
+                          ),
+                        ),
+
                         // Email Input
                         Container(
                           margin: const EdgeInsets.only(top: 10),
-                          child: TextFormField(
-                            style: const TextStyle(
-                              color: Color(primaryTextColor),
-                              fontSize: 14,
-                            ),
-                            cursorColor: const Color(primaryTextColor),
+                          child: UnderlineTextField(
                             controller: emailController,
-                            decoration: const InputDecoration(
-                              hintText: 'Masukan Email',
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(primaryTextColor),
-                                ),
-                              ),
-                            ),
+                            hintText: "Masukan Email",
+                            inputType: TextInputType.emailAddress,
                           ),
                         ),
 
                         // Password Input
                         Container(
                           margin: const EdgeInsets.only(top: 10),
-                          child: TextFormField(
-                            cursorColor: const Color(primaryTextColor),
-                            style: const TextStyle(
-                              color: Color(primaryTextColor),
-                              fontSize: 14,
-                            ),
+                          child: UnderlineTextField(
                             controller: passwordController,
-                            obscureText: isObscure.value,
-                            decoration: InputDecoration(
-                              hintText: 'Masukan Password',
-                              focusedBorder: const UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color(primaryTextColor),
-                                ),
-                              ),
-                              suffixIcon: GestureDetector(
-                                onTap: () => isObscure.value = !isObscure.value,
-                                child: Icon(
-                                  isObscure.value
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                ),
-                              ),
-                            ),
+                            hintText: "Masukan Password",
+                            inputType: TextInputType.visiblePassword,
+                          ),
+                        ),
+
+                        // Password Input
+                        Container(
+                          margin: const EdgeInsets.only(top: 10),
+                          child: UnderlineTextField(
+                            controller: confirmPasswordController,
+                            hintText: "Masukan Ulang Password",
+                            inputType: TextInputType.visiblePassword,
                           ),
                         ),
                       ],
@@ -112,26 +103,9 @@ class _RegisterItemWidgetState extends ConsumerState<RegisterItemWidget> {
                   ),
                 ),
 
-                // Forgot Password
+                // Register Button
                 Container(
-                  margin: const EdgeInsets.only(top: 5),
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {},
-                    child: const Text(
-                      'Lupa Password?',
-                      style: TextStyle(
-                        color: Color(primaryTextColor),
-                        decoration: TextDecoration.underline,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
-                ),
-
-                // Login Button
-                Container(
-                  margin: const EdgeInsets.only(top: 5),
+                  margin: const EdgeInsets.only(top: 30),
                   width: double.infinity,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
@@ -156,7 +130,7 @@ class _RegisterItemWidgetState extends ConsumerState<RegisterItemWidget> {
                       ),
                     ),
                     child: const Text(
-                      'Masuk',
+                      'Daftar',
                       style: TextStyle(
                         fontSize: 14,
                         color: Color(secondaryBackgroundColor),
@@ -166,14 +140,14 @@ class _RegisterItemWidgetState extends ConsumerState<RegisterItemWidget> {
                   ),
                 ),
 
-                // Dont have Account
+                // Alreadt have Account
                 Container(
                   margin: const EdgeInsets.only(top: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        'Belum punya akun?',
+                        'Sudah punya akun?',
                         style: TextStyle(
                           fontSize: 12,
                         ),
@@ -185,9 +159,9 @@ class _RegisterItemWidgetState extends ConsumerState<RegisterItemWidget> {
                           padding: EdgeInsets.zero,
                           tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         ),
-                        onPressed: () {},
+                        onPressed: () => Navigator.pop(context),
                         child: const Text(
-                          'Daftar',
+                          'Masuk',
                           style: TextStyle(
                             color: Color(primaryColor),
                             decoration: TextDecoration.underline,
