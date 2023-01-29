@@ -18,6 +18,7 @@ Future<void> main() async {
       options.dsn =
           'https://d275a05777f0454baf3e145c366b184b@o4504376921096192.ingest.sentry.io/4504558263992320';
       options.tracesSampleRate = 1.0;
+      DiagnosticLevel.error;
     },
     appRunner: () =>
         SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
