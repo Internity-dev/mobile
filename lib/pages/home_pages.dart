@@ -79,6 +79,10 @@ class _HomePagesState extends ConsumerState<HomePages> {
                     Container(
                       margin: const EdgeInsets.only(top: 20),
                       child: TextField(
+                        style: TextStyle(
+                          color: const Color(primaryTextColor),
+                          fontSize: 12,
+                        ),
                         decoration: InputDecoration(
                           hintText: 'Cari tempat magang',
                           hintStyle: const TextStyle(
