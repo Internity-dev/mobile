@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'pages/login_pages.dart';
 import 'pages/onboarding_pages.dart';
 import 'pages/register_pages.dart';
 import 'theme/colors.dart';
+import 'pages/main_pages.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +41,7 @@ class MyApp extends HookConsumerWidget {
         scaffoldBackgroundColor: const Color(primaryBackgroundColor),
       ),
       home: const SafeArea(
-        child: OnboardingPage(),
+        child: MainPages(),
       ),
       routes: {
         '/login': (context) => const LoginPage(),

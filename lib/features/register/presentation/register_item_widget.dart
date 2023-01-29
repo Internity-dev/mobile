@@ -25,7 +25,7 @@ class _RegisterItemWidgetState extends ConsumerState<RegisterItemWidget> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
       child: Column(
         children: [
-          // Login Banner
+          // Register Banner
           Container(
             margin: const EdgeInsets.only(top: 20),
             child: const Image(
@@ -34,7 +34,7 @@ class _RegisterItemWidgetState extends ConsumerState<RegisterItemWidget> {
             ),
           ),
 
-          // Login Form
+          // Register Form
           Container(
             margin: const EdgeInsets.only(top: 20),
             child: Column(
