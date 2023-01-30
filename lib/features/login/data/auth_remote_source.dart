@@ -31,7 +31,7 @@ class AuthRemoteSource {
 
       return Right(User.fromJson(response.data));
     } on DioError catch (e) {
-      return Left(e.response?.data['message'] ?? 'Something went wrong');
+      return Left(e.message);
     }
   }
 }
