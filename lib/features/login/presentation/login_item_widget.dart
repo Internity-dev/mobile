@@ -3,6 +3,7 @@ import 'package:internity/shared/riverpod_and_hooks.dart';
 
 import '../../../shared/widget/underline_text_field.dart';
 import '../../../theme/colors.dart';
+import '../provider/auth_provider.dart';
 
 class LoginItemWidget extends StatefulHookConsumerWidget {
   const LoginItemWidget({super.key});
@@ -18,6 +19,11 @@ class _LoginItemWidgetState extends ConsumerState<LoginItemWidget> {
     final formKey = GlobalKey<FormState>();
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
+
+    final _authProvider = ref.watch(authProvider);
+    final bool validateError = ref
+        .watch(authProvider)
+        .maybeWhen(failure: (errorMessage) => true, orElse: () => false);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
@@ -64,6 +70,12 @@ class _LoginItemWidgetState extends ConsumerState<LoginItemWidget> {
                             controller: emailController,
                             hintText: "Masukan Email",
                             inputType: TextInputType.emailAddress,
+                            errorText: validateError
+                                ? _authProvider.maybeWhen(
+                                    failure: (errorMessage) => errorMessage,
+                                    orElse: () => null)
+                                : null,
+                            validateError: validateError,
                           ),
                         ),
 
@@ -74,6 +86,12 @@ class _LoginItemWidgetState extends ConsumerState<LoginItemWidget> {
                             controller: passwordController,
                             hintText: "Masukan Password",
                             inputType: TextInputType.visiblePassword,
+                            errorText: validateError
+                                ? _authProvider.maybeWhen(
+                                    failure: (errorMessage) => errorMessage,
+                                    orElse: () => null)
+                                : null,
+                            validateError: validateError,
                           ),
                         ),
                       ],
@@ -114,7 +132,11 @@ class _LoginItemWidgetState extends ConsumerState<LoginItemWidget> {
                     ),
                   ),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      ref.read(authProvider.notifier).login(
+                          email: emailController.text,
+                          password: passwordController.text);
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.transparent,
                       disabledForegroundColor: Colors.transparent,

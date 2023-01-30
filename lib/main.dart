@@ -42,7 +42,7 @@ class MyApp extends HookConsumerWidget {
         scaffoldBackgroundColor: const Color(primaryBackgroundColor),
       ),
       home: const SafeArea(
-        child: MainPages(),
+        child: LoginPage(),
       ),
       routes: {
         '/login': (context) => const LoginPage(),

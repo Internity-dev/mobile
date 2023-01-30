@@ -7,12 +7,16 @@ class UnderlineTextField extends StatefulHookConsumerWidget {
   final TextEditingController controller;
   final TextInputType inputType;
   final String hintText;
+  final String? errorText;
+  final bool? validateError;
 
   const UnderlineTextField(
       {super.key,
       required this.controller,
       required this.inputType,
-      required this.hintText});
+      required this.hintText,
+      this.errorText,
+      this.validateError});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -25,11 +29,14 @@ class _UnderlineTextFieldState extends ConsumerState<UnderlineTextField> {
     final isObscure =
         useState(widget.inputType == TextInputType.visiblePassword);
 
+    final isValidateError = useState(widget.validateError ?? false);
+
     return TextFormField(
       style: const TextStyle(
         color: Color(primaryTextColor),
         fontSize: 14,
       ),
+      onTap: () => isValidateError.value = false,
       cursorColor: const Color(primaryTextColor),
       controller: widget.controller,
       keyboardType: widget.inputType,
@@ -41,6 +48,7 @@ class _UnderlineTextFieldState extends ConsumerState<UnderlineTextField> {
             color: Color(primaryTextColor),
           ),
         ),
+        errorText: isValidateError.value ? widget.errorText : null,
         suffixIcon: widget.inputType == TextInputType.visiblePassword
             ? GestureDetector(
                 onTap: () => isObscure.value = !isObscure.value,
