@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:internity/shared/riverpod_and_hooks.dart';
 
+import '../../../shared/widget/loading_button.dart';
 import '../../../shared/widget/underline_text_field.dart';
 import '../../../theme/colors.dart';
 import '../provider/auth_provider.dart';
@@ -21,9 +22,8 @@ class _LoginItemWidgetState extends ConsumerState<LoginItemWidget> {
     final passwordController = useTextEditingController();
 
     final _authProvider = ref.watch(authProvider);
-    final bool validateError = ref
-        .watch(authProvider)
-        .maybeWhen(failure: (errorMessage) => true, orElse: () => false);
+    final bool validateError = _authProvider.maybeWhen(
+        failure: (errorMessage) => true, orElse: () => false);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
@@ -131,28 +131,15 @@ class _LoginItemWidgetState extends ConsumerState<LoginItemWidget> {
                       ],
                     ),
                   ),
-                  child: ElevatedButton(
+                  child: LoadingButton(
                     onPressed: () {
                       ref.read(authProvider.notifier).login(
                           email: emailController.text,
                           password: passwordController.text);
                     },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.transparent,
-                      disabledForegroundColor: Colors.transparent,
-                      disabledBackgroundColor: Colors.transparent,
-                      shadowColor: Colors.transparent,
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 10,
-                      ),
-                    ),
-                    child: const Text(
-                      'Masuk',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Color(secondaryBackgroundColor),
-                        fontWeight: FontWeight.bold,
-                      ),
+                    isLoading: _authProvider.maybeWhen(
+                      loading: () => true,
+                      orElse: () => false,
                     ),
                   ),
                 ),

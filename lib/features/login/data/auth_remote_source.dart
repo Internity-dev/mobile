@@ -18,8 +18,8 @@ class AuthRemoteSource {
       final response = await dio.post(
         'api/login',
         data: {
-          'email': "student@test.de",
-          'password': "123qweasd",
+          'email': email,
+          'password': password,
         },
         options: Options(
           headers: {
