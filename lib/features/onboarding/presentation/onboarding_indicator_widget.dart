@@ -81,14 +81,16 @@ class _OnboardingIndicatorWidgetState
                 curve: Curves.easeInOut,
               );
             },
-            child: Text(
-              isLastPage ? 'Mulai!' : 'Lanjut',
-              style: const TextStyle(
-                color: Color(primaryTextColor),
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            child: isLastPage
+                ? const SizedBox()
+                : const Text(
+                    'Lanjut',
+                    style: TextStyle(
+                      color: Color(primaryTextColor),
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
           ),
         ],
       ),

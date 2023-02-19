@@ -1,5 +1,5 @@
-class User {
-  User({
+class AuthModel {
+  AuthModel({
     required this.message,
     required this.accessToken,
     required this.tokenType,
@@ -8,7 +8,7 @@ class User {
   late final String accessToken;
   late final String tokenType;
 
-  User.fromJson(Map<String, dynamic> json) {
+  AuthModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     accessToken = json['access_token'];
     tokenType = json['token_type'];

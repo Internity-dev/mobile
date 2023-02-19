@@ -21,9 +21,12 @@ class _LoginItemWidgetState extends ConsumerState<LoginItemWidget> {
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
 
-    final _authProvider = ref.watch(authProvider);
-    final bool validateError = _authProvider.maybeWhen(
-        failure: (errorMessage) => true, orElse: () => false);
+    final authData = ref.watch(authProvider);
+    final bool validateError = authData.maybeWhen(
+        failure: (errorMessage) {
+          return true;
+        },
+        orElse: () => false);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
@@ -71,7 +74,7 @@ class _LoginItemWidgetState extends ConsumerState<LoginItemWidget> {
                             hintText: "Masukan Email",
                             inputType: TextInputType.emailAddress,
                             errorText: validateError
-                                ? _authProvider.maybeWhen(
+                                ? authData.maybeWhen(
                                     failure: (errorMessage) => errorMessage,
                                     orElse: () => null)
                                 : null,
@@ -87,7 +90,7 @@ class _LoginItemWidgetState extends ConsumerState<LoginItemWidget> {
                             hintText: "Masukan Password",
                             inputType: TextInputType.visiblePassword,
                             errorText: validateError
-                                ? _authProvider.maybeWhen(
+                                ? authData.maybeWhen(
                                     failure: (errorMessage) => errorMessage,
                                     orElse: () => null)
                                 : null,
@@ -137,7 +140,7 @@ class _LoginItemWidgetState extends ConsumerState<LoginItemWidget> {
                           email: emailController.text,
                           password: passwordController.text);
                     },
-                    isLoading: _authProvider.maybeWhen(
+                    isLoading: authData.maybeWhen(
                       loading: () => true,
                       orElse: () => false,
                     ),
