@@ -22,11 +22,6 @@ class _LoginItemWidgetState extends ConsumerState<LoginItemWidget> {
     final passwordController = useTextEditingController();
 
     final authData = ref.watch(authProvider);
-    final bool validateError = authData.maybeWhen(
-        failure: (errorMessage) {
-          return true;
-        },
-        orElse: () => false);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
@@ -73,12 +68,12 @@ class _LoginItemWidgetState extends ConsumerState<LoginItemWidget> {
                             controller: emailController,
                             hintText: "Masukan Email",
                             inputType: TextInputType.emailAddress,
-                            errorText: validateError
-                                ? authData.maybeWhen(
-                                    failure: (errorMessage) => errorMessage,
-                                    orElse: () => null)
-                                : null,
-                            validateError: validateError,
+                            errorText: authData.maybeWhen(
+                                loginError: (errorMessage) => errorMessage,
+                                orElse: () => null),
+                            validateError: authData.maybeWhen(
+                                loginError: (errorMessage) => true,
+                                orElse: () => null),
                           ),
                         ),
 
@@ -89,12 +84,12 @@ class _LoginItemWidgetState extends ConsumerState<LoginItemWidget> {
                             controller: passwordController,
                             hintText: "Masukan Password",
                             inputType: TextInputType.visiblePassword,
-                            errorText: validateError
-                                ? authData.maybeWhen(
-                                    failure: (errorMessage) => errorMessage,
-                                    orElse: () => null)
-                                : null,
-                            validateError: validateError,
+                            errorText: authData.maybeWhen(
+                                loginError: (errorMessage) => errorMessage,
+                                orElse: () => null),
+                            validateError: authData.maybeWhen(
+                                loginError: (errorMessage) => true,
+                                orElse: () => null),
                           ),
                         ),
                       ],

@@ -40,16 +40,17 @@ Future<void> main() async {
   });
 }
 
-class MyApp extends HookConsumerWidget {
+class MyApp extends StatefulHookConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isOnboarding = useState(prefs.getBool('is_onboarding') ?? true);
-    final isLoginData = ref.watch(isUserLoginProvider);
-    final userAuthData = ref.watch(getUserAuthProvider);
+  ConsumerState<ConsumerStatefulWidget> createState() => _MyAppState();
+}
 
-    var isLogin = isLoginData.asData?.value;
+class _MyAppState extends ConsumerState<MyApp> {
+  @override
+  Widget build(BuildContext context) {
+    final isOnboarding = useState(prefs.getBool('is_onboarding') ?? true);
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -60,20 +61,25 @@ class MyApp extends HookConsumerWidget {
         scaffoldBackgroundColor: const Color(primaryBackgroundColor),
       ),
       home: SafeArea(
-        child: isOnboarding.value
-            ? const OnboardingPage()
-            : isLogin ?? false
-                ? const MainPages()
-                : userAuthData.when(
-                    data: (data) => const MainPages(),
-                    error: (error, stackTrace) => const LoginPage(),
-                    loading: () => const Scaffold(
-                      body: Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    ),
-                  ),
-      ),
+          child: isOnboarding.value
+              ? const OnboardingPage()
+              : FutureBuilder(
+                  future: ref.watch(isUserLoginProvider.future),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      if (snapshot.data == true) {
+                        return const MainPages();
+                      } else {
+                        return const LoginPage();
+                      }
+                    } else {
+                      return const Scaffold(
+                        body: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    }
+                  })),
       routes: {
         '/login': (context) => const LoginPage(),
         '/onboard': (context) => const OnboardingPage(),

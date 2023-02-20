@@ -44,6 +44,8 @@ class AuthRemoteSource {
 
   // Get user auth method
   Future<Either<String, UserModel>> getUserAuth() async {
+    final prefs = await SharedPreferences.getInstance();
+
     try {
       final response = await dio.get(
         'api/me',
@@ -51,31 +53,52 @@ class AuthRemoteSource {
           headers: {
             'Accept': 'application/json',
             'Content-type': 'application/json',
+            'Authorization': 'Bearer ${prefs.getString('token')}'
           },
         ),
       );
 
       UserModel jsonResult = UserModel.fromJson(response.data);
 
+      print(jsonResult);
+
       return Right(jsonResult);
+    } on DioError catch (e) {
+      if (e.response?.statusCode == 401) {
+        final prefs = await SharedPreferences.getInstance();
+        prefs.remove('token');
+
+        return Left(e.message);
+      }
+
+      return Left(e.message);
+    }
+  }
+
+  // Logout method
+  Future<Either<String, dynamic>> logout() async {
+    print("dikilcas");
+    final prefs = await SharedPreferences.getInstance();
+
+    try {
+      final response = await dio.post(
+        'api/logout',
+        options: Options(
+          headers: {
+            'Accept': 'application/json',
+            'Content-type': 'application/json',
+            'Authorization': 'Bearer ${prefs.getString('token')}'
+          },
+        ),
+      );
+
+      prefs.remove('token');
+
+      print(response.data);
+
+      return Right(response.data);
     } on DioError catch (e) {
       return Left(e.message);
     }
   }
 }
-
-final authRemoteSourceProvider = Provider<AuthRemoteSource>((ref) {
-  String? token;
-
-  void getToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    token = prefs.getString('token');
-  }
-
-  getToken();
-
-  return AuthRemoteSource(
-    dio: ref.read(dioProvider(token)),
-    ref: ref,
-  );
-});
