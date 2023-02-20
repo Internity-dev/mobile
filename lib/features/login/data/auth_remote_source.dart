@@ -60,8 +60,6 @@ class AuthRemoteSource {
 
       UserModel jsonResult = UserModel.fromJson(response.data);
 
-      print(jsonResult);
-
       return Right(jsonResult);
     } on DioError catch (e) {
       if (e.response?.statusCode == 401) {
@@ -77,7 +75,6 @@ class AuthRemoteSource {
 
   // Logout method
   Future<Either<String, dynamic>> logout() async {
-    print("dikilcas");
     final prefs = await SharedPreferences.getInstance();
 
     try {
@@ -94,11 +91,16 @@ class AuthRemoteSource {
 
       prefs.remove('token');
 
-      print(response.data);
-
       return Right(response.data);
     } on DioError catch (e) {
       return Left(e.message);
     }
   }
 }
+
+final authRemoteSourceProvider = Provider<AuthRemoteSource>((ref) {
+  return AuthRemoteSource(
+    dio: ref.watch(dioProvider(null)),
+    ref: ref,
+  );
+});

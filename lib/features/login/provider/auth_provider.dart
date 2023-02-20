@@ -1,17 +1,9 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../shared/provider/dio_provider.dart';
 import '../../../shared/riverpod_and_hooks.dart';
 import '../../profile/model/user.dart';
 import '../data/auth_remote_source.dart';
 import '../model/login_state.dart';
-
-final authRemoteSourceProvider = Provider<AuthRemoteSource>((ref) {
-  return AuthRemoteSource(
-    dio: ref.watch(dioProvider(null)),
-    ref: ref,
-  );
-});
 
 class Auth extends StateNotifier<AuthState> {
   Auth(this._authRemoteSource) : super(const AuthState.initial());
@@ -52,7 +44,7 @@ final authProvider = StateNotifierProvider.autoDispose<Auth, AuthState>((ref) {
   );
 });
 
-// get user data
+// Get auth User data
 final userProvider = FutureProvider.autoDispose<UserModel>((ref) async {
   final result = await ref.read(authRemoteSourceProvider).getUserAuth();
 
@@ -62,14 +54,12 @@ final userProvider = FutureProvider.autoDispose<UserModel>((ref) async {
   );
 });
 
-// Check if user is login
+// Check user Auth status
 final isUserLoginProvider = FutureProvider.autoDispose<bool>((ref) async {
   ref.watch(authProvider);
   ref.watch(userProvider);
 
   final prefs = await SharedPreferences.getInstance();
-
-  print(prefs.getString('token'));
 
   return prefs.getString('token') != null;
 });
