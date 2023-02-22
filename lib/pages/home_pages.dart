@@ -206,10 +206,11 @@ class _HomePagesState extends ConsumerState<HomePages> {
               const UploadCV(),
 
               ElevatedButton(
-                  onPressed: () {
-                    ref.read(authProvider.notifier).logout();
-                  },
-                  child: Text('Logout'))
+                onPressed: () {
+                  ref.read(authProvider.notifier).logout();
+                },
+                child: Text('Logout'),
+              )
             ],
           ),
         ),

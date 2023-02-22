@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:internity/shared/widget/loading_button.dart';
 
 import '../../../shared/riverpod_and_hooks.dart';
 import '../../../shared/widget/snackbar_error.dart';
@@ -11,6 +12,8 @@ class UploadCV extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.watch(uploadCVProvider);
+
+    var isUploadLoading = useState(false);
 
     return Container(
       margin: const EdgeInsets.only(top: 30),
@@ -48,26 +51,27 @@ class UploadCV extends HookConsumerWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: ElevatedButton(
+          Container(
+            margin: const EdgeInsets.only(top: 20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: const Color(primaryColor),
+            ),
+            child: LoadingButton(
+              text: "Upload CV",
               onPressed: () {
+                isUploadLoading.value = true;
                 ref
                     .read(uploadCVProvider)
                     .uploadCVFile()
+                    .then((value) => isUploadLoading.value = false)
                     .onError((error, stackTrace) {
-                  SnackbarError.showErrorSnackbar(
+                  isUploadLoading.value = false;
+                  return SnackbarError.showErrorSnackbar(
                       context, error.toString(), ref);
                 });
               },
-              style: ElevatedButton.styleFrom(
-                elevation: 0,
-                backgroundColor: const Color(primaryColor),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              child: const Text("Upload CV"),
+              isLoading: isUploadLoading.value,
             ),
           ),
         ],

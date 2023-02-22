@@ -5,10 +5,14 @@ import '../riverpod_and_hooks.dart';
 
 class LoadingButton extends StatefulHookConsumerWidget {
   const LoadingButton(
-      {super.key, required this.onPressed, this.isLoading = false});
+      {super.key,
+      required this.onPressed,
+      this.isLoading = false,
+      required this.text});
 
   final void Function() onPressed;
   final bool isLoading;
+  final String text;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _LoadingButtonState();
@@ -35,9 +39,9 @@ class _LoadingButtonState extends ConsumerState<LoadingButton> {
                 color: Colors.white,
                 strokeWidth: 3,
               ))
-          : const Text(
-              'Masuk',
-              style: TextStyle(
+          : Text(
+              widget.text,
+              style: const TextStyle(
                 fontSize: 14,
                 color: Color(secondaryBackgroundColor),
                 fontWeight: FontWeight.bold,

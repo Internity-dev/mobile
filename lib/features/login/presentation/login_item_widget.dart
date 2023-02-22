@@ -130,6 +130,7 @@ class _LoginItemWidgetState extends ConsumerState<LoginItemWidget> {
                     ),
                   ),
                   child: LoadingButton(
+                    text: 'Masuk',
                     onPressed: () {
                       ref.read(authProvider.notifier).login(
                           email: emailController.text,
