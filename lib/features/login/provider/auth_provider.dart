@@ -45,8 +45,10 @@ final authProvider = StateNotifierProvider.autoDispose<Auth, AuthState>((ref) {
 });
 
 // Get auth User data
-final userProvider = FutureProvider.autoDispose<UserModel>((ref) async {
+final authUserProvider = FutureProvider.autoDispose<UserModel>((ref) async {
   final result = await ref.read(authRemoteSourceProvider).getUserAuth();
+
+  print(result);
 
   return result.fold(
     (error) => throw Exception(error),
@@ -57,7 +59,7 @@ final userProvider = FutureProvider.autoDispose<UserModel>((ref) async {
 // Check user Auth status
 final isUserLoginProvider = FutureProvider.autoDispose<bool>((ref) async {
   ref.watch(authProvider);
-  ref.watch(userProvider);
+  ref.watch(authUserProvider);
 
   final prefs = await SharedPreferences.getInstance();
 

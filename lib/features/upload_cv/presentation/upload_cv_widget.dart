@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../shared/riverpod_and_hooks.dart';
+import '../../../shared/widget/snackbar_error.dart';
 import '../../../theme/colors.dart';
 import '../provider/upload_cv_provider.dart';
 
@@ -51,7 +52,13 @@ class UploadCV extends HookConsumerWidget {
             padding: const EdgeInsets.only(top: 10),
             child: ElevatedButton(
               onPressed: () {
-                ref.read(uploadCVProvider).getLocalFile();
+                ref
+                    .read(uploadCVProvider)
+                    .uploadCVFile()
+                    .onError((error, stackTrace) {
+                  SnackbarError.showErrorSnackbar(
+                      context, error.toString(), ref);
+                });
               },
               style: ElevatedButton.styleFrom(
                 elevation: 0,

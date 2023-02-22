@@ -4,6 +4,7 @@ import 'package:internity/pages/home_pages.dart';
 import '../shared/provider/bottom_bar_provider.dart';
 import '../shared/riverpod_and_hooks.dart';
 import '../shared/widget/bottom_bar.dart';
+import 'profile_pages.dart';
 
 class MainPages extends StatefulHookConsumerWidget {
   const MainPages({super.key});
@@ -17,26 +18,21 @@ class _MainPagesState extends ConsumerState<MainPages> {
   Widget build(BuildContext context) {
     final currentIndexPages = ref.watch(bottomBarProvider);
 
+    List<Widget> beforeUploadCV = [
+      const HomePages(),
+      const Center(
+        child: Text('Search'),
+      ),
+      const Center(
+        child: Text('Add'),
+      ),
+      const ProfilePage()
+    ];
+
     return Scaffold(
       body: IndexedStack(
         index: currentIndexPages,
-        children: const [
-          Center(
-            child: HomePages(),
-          ),
-          Center(
-            child: Text('Search'),
-          ),
-          Center(
-            child: Text('Add'),
-          ),
-          Center(
-            child: Text('Favorite'),
-          ),
-          Center(
-            child: Text('Profile'),
-          ),
-        ],
+        children: beforeUploadCV,
       ),
       bottomNavigationBar: const BottomBar(),
     );
