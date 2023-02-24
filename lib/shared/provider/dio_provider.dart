@@ -4,7 +4,7 @@ import '../../shared/riverpod_and_hooks.dart';
 
 final dioProvider = Provider.family<Dio, String?>((ref, token) {
   final dio = Dio();
-  dio.options.baseUrl = 'http://192.168.41.143:8000/';
+  dio.options.baseUrl = 'http://172.20.4.2:8000/';
   // dio.options.connectTimeout = 5000;
   // dio.options.receiveTimeout = 3000;
   dio.options.headers['Accept'] = 'application/json';

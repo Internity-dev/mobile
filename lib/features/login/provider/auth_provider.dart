@@ -1,7 +1,8 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../shared/riverpod_and_hooks.dart';
-import '../../profile/model/user.dart';
+import '../../onboarding/provider/onboarding_provider.dart';
+
 import '../data/auth_remote_source.dart';
 import '../model/login_state.dart';
 
@@ -38,30 +39,33 @@ class Auth extends StateNotifier<AuthState> {
 }
 
 // Login function
-final authProvider = StateNotifierProvider.autoDispose<Auth, AuthState>((ref) {
+final authProvider = StateNotifierProvider<Auth, AuthState>((ref) {
   return Auth(
     ref.watch(authRemoteSourceProvider),
   );
 });
 
 // Get auth User data
-final authUserProvider = FutureProvider.autoDispose<UserModel>((ref) async {
-  final result = await ref.read(authRemoteSourceProvider).getUserAuth();
-
-  print(result);
-
-  return result.fold(
-    (error) => throw Exception(error),
-    (success) => success,
-  );
+final authUserProvider = FutureProvider((ref) async {
+  return await ref.watch(authRemoteSourceProvider).getUserAuth();
 });
 
 // Check user Auth status
-final isUserLoginProvider = FutureProvider.autoDispose<bool>((ref) async {
+enum UserStatus { loggedIn, loggedOut, onboarding }
+
+final isUserLoginProvider = FutureProvider<UserStatus>((ref) async {
   ref.watch(authProvider);
-  ref.watch(authUserProvider);
+  ref.watch(onboardingProvider);
+  await ref.watch(authUserProvider.future);
 
   final prefs = await SharedPreferences.getInstance();
 
-  return prefs.getString('token') != null;
+  if (prefs.getBool('is_onboarding') == true ||
+      prefs.getBool('is_onboarding') == null) {
+    return UserStatus.onboarding;
+  } else if (prefs.getString('token') != null) {
+    return UserStatus.loggedIn;
+  } else {
+    return UserStatus.loggedOut;
+  }
 });

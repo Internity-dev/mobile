@@ -67,8 +67,9 @@ class UploadCV extends HookConsumerWidget {
                     .then((value) => isUploadLoading.value = false)
                     .onError((error, stackTrace) {
                   isUploadLoading.value = false;
-                  return SnackbarError.showErrorSnackbar(
+                  SnackbarError.showErrorSnackbar(
                       context, error.toString(), ref);
+                  return true;
                 });
               },
               isLoading: isUploadLoading.value,

@@ -49,6 +49,8 @@ class UploadCVFileLocalSource {
         ),
       );
 
+      print(response);
+
       return response;
     } catch (e) {
       rethrow;

@@ -1,12 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../shared/riverpod_and_hooks.dart';
 import '../../../theme/colors.dart';
-import '../model/onboarding_model.dart';
+
 import '../provider/onboarding_provider.dart';
 
 class OnboardingItemWidget extends StatefulHookConsumerWidget {
@@ -57,15 +54,10 @@ class _OnboardingItemWidgetState extends ConsumerState<OnboardingItemWidget> {
                 widgetFooter: Container(
                   margin: const EdgeInsets.only(top: 20),
                   child: ElevatedButton(
-                    onPressed: () async {
-                      Navigator.pushReplacementNamed(context, '/login');
-
-                      final prefs = await SharedPreferences.getInstance();
-                      final data = Onboarding(
-                        isOnboarding: false,
-                      );
-
-                      prefs.setBool('is_onboarding', data.isOnboarding);
+                    onPressed: () {
+                      ref
+                          .read(onboardingProvider.notifier)
+                          .setOnboardingStatus(false);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(primaryTextColor),

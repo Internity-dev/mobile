@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:internity/features/login/data/auth_remote_source.dart';
 import 'package:internity/features/login/provider/auth_provider.dart';
 import 'package:internity/shared/riverpod_and_hooks.dart';
 
@@ -49,9 +50,17 @@ class MyApp extends StatefulHookConsumerWidget {
 
 class _MyAppState extends ConsumerState<MyApp> {
   @override
-  Widget build(BuildContext context) {
-    final isOnboarding = useState(prefs.getBool('is_onboarding') ?? true);
+  void initState() {
+    checkUserLogin();
+    super.initState();
+  }
 
+  void checkUserLogin() {
+    ref.read(authUserProvider);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -61,25 +70,27 @@ class _MyAppState extends ConsumerState<MyApp> {
         scaffoldBackgroundColor: const Color(primaryBackgroundColor),
       ),
       home: SafeArea(
-          child: isOnboarding.value
-              ? const OnboardingPage()
-              : FutureBuilder(
-                  future: ref.watch(isUserLoginProvider.future),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      if (snapshot.data == true) {
-                        return const MainPages();
-                      } else {
-                        return const LoginPage();
-                      }
-                    } else {
-                      return const Scaffold(
-                        body: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
-                    }
-                  })),
+          child: ref.watch(isUserLoginProvider).when(
+              skipLoadingOnReload: true,
+              data: (data) {
+                if (data == UserStatus.onboarding) {
+                  return const OnboardingPage();
+                } else if (data == UserStatus.loggedIn) {
+                  return const MainPages();
+                } else {
+                  return const LoginPage();
+                }
+              },
+              error: (error, stackTrace) {
+                return const LoginPage();
+              },
+              loading: () {
+                return const Scaffold(
+                  body: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              })),
       routes: {
         '/login': (context) => const LoginPage(),
         '/onboard': (context) => const OnboardingPage(),
