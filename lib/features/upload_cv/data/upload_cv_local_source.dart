@@ -1,8 +1,7 @@
-import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../shared/provider/shared_pref_provider.dart';
 import '../../../shared/riverpod_and_hooks.dart';
 
 class UploadCVFileLocalSource {
@@ -35,7 +34,7 @@ class UploadCVFileLocalSource {
         "resume": file,
       });
 
-      final prefs = await SharedPreferences.getInstance();
+      final prefs = await ref.watch(sharedPrefProvider);
 
       var response = await dio.post(
         'api/resumes',

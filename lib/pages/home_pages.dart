@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:internity/features/upload_cv/presentation/upload_cv_widget.dart';
 import 'package:internity/theme/colors.dart';
 
-import '../features/login/provider/auth_provider.dart';
 import '../shared/riverpod_and_hooks.dart';
 
 class HomePages extends StatefulHookConsumerWidget {
@@ -204,13 +203,6 @@ class _HomePagesState extends ConsumerState<HomePages> {
 
               // Upload CV
               const UploadCV(),
-
-              ElevatedButton(
-                onPressed: () {
-                  ref.read(authProvider.notifier).logout();
-                },
-                child: Text('Logout'),
-              )
             ],
           ),
         ),

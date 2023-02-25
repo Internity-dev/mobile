@@ -1,5 +1,4 @@
-import 'package:shared_preferences/shared_preferences.dart';
-
+import '../../../shared/provider/shared_pref_provider.dart';
 import '../../../shared/riverpod_and_hooks.dart';
 import '../../onboarding/provider/onboarding_provider.dart';
 
@@ -58,7 +57,7 @@ final isUserLoginProvider = FutureProvider<UserStatus>((ref) async {
   ref.watch(onboardingProvider);
   await ref.watch(authUserProvider.future);
 
-  final prefs = await SharedPreferences.getInstance();
+  final prefs = await ref.watch(sharedPrefProvider);
 
   if (prefs.getBool('is_onboarding') == true ||
       prefs.getBool('is_onboarding') == null) {

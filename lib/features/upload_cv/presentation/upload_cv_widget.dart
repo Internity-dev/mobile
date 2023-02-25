@@ -53,10 +53,6 @@ class UploadCV extends HookConsumerWidget {
           ),
           Container(
             margin: const EdgeInsets.only(top: 20),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: const Color(primaryColor),
-            ),
             child: LoadingButton(
               text: "Upload CV",
               onPressed: () {
@@ -72,6 +68,8 @@ class UploadCV extends HookConsumerWidget {
                   return true;
                 });
               },
+              isGradient: false,
+              backgroundColor: primaryColor,
               isLoading: isUploadLoading.value,
             ),
           ),

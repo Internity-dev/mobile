@@ -115,31 +115,25 @@ class _LoginItemWidgetState extends ConsumerState<LoginItemWidget> {
                 ),
 
                 // Login Button
-                Container(
-                  margin: const EdgeInsets.only(top: 5),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    gradient: const LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        Color(0xFF1090FF),
-                        Color(0xFF01C1FF),
-                      ],
-                    ),
+                LoadingButton(
+                  text: 'Masuk',
+                  onPressed: () {
+                    ref.read(authProvider.notifier).login(
+                        email: emailController.text,
+                        password: passwordController.text);
+                  },
+                  isLoading: authData.maybeWhen(
+                    loading: () => true,
+                    orElse: () => false,
                   ),
-                  child: LoadingButton(
-                    text: 'Masuk',
-                    onPressed: () {
-                      ref.read(authProvider.notifier).login(
-                          email: emailController.text,
-                          password: passwordController.text);
-                    },
-                    isLoading: authData.maybeWhen(
-                      loading: () => true,
-                      orElse: () => false,
-                    ),
+                  isGradient: true,
+                  gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Color(0xFF1090FF),
+                      Color(0xFF01C1FF),
+                    ],
                   ),
                 ),
 

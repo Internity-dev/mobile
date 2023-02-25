@@ -95,6 +95,7 @@ class _MyAppState extends ConsumerState<MyApp> {
         '/login': (context) => const LoginPage(),
         '/onboard': (context) => const OnboardingPage(),
         '/register': (context) => const RegisterPage(),
+        '/main': (context) => const MainPages(),
       },
     );
   }

@@ -1,9 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:dartz/dartz.dart';
 import 'package:internity/features/profile/model/user.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../shared/provider/dio_provider.dart';
+import '../../../shared/provider/shared_pref_provider.dart';
 import '../../../shared/riverpod_and_hooks.dart';
 import '../model/auth.dart';
 
@@ -33,7 +33,7 @@ class AuthRemoteSource {
 
       AuthModel jsonResult = AuthModel.fromJson(response.data);
 
-      final prefs = await SharedPreferences.getInstance();
+      final prefs = await ref.watch(sharedPrefProvider);
       prefs.setString('token', jsonResult.accessToken);
 
       return Right(jsonResult);
@@ -44,7 +44,7 @@ class AuthRemoteSource {
 
   // Get user auth method
   Future<Either<String, UserModel>> getUserAuth() async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await ref.watch(sharedPrefProvider);
 
     try {
       final response = await dio.get(
@@ -63,7 +63,6 @@ class AuthRemoteSource {
       return Right(jsonResult);
     } on DioError catch (e) {
       if (e.response?.statusCode == 401) {
-        final prefs = await SharedPreferences.getInstance();
         prefs.remove('token');
 
         return Left(e.message);
@@ -75,7 +74,7 @@ class AuthRemoteSource {
 
   // Logout method
   Future<Either<String, dynamic>> logout() async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await ref.watch(sharedPrefProvider);
 
     try {
       final response = await dio.post(
