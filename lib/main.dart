@@ -50,16 +50,6 @@ class MyApp extends StatefulHookConsumerWidget {
 
 class _MyAppState extends ConsumerState<MyApp> {
   @override
-  void initState() {
-    checkUserLogin();
-    super.initState();
-  }
-
-  void checkUserLogin() {
-    ref.read(authUserProvider);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:internity/features/upload_cv/presentation/upload_cv_widget.dart';
 import 'package:internity/theme/colors.dart';
 
+import '../features/news/presentation/news_slider_widget.dart';
 import '../shared/riverpod_and_hooks.dart';
 
 class HomePages extends StatefulHookConsumerWidget {
@@ -144,59 +145,9 @@ class _HomePagesState extends ConsumerState<HomePages> {
                         )
                       ],
                     ),
-                    Container(
-                      height: 201,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 10,
-                        itemBuilder: (context, index) => Container(
-                          height: 400,
-                          width: 250,
-                          margin: const EdgeInsets.only(right: 20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: const Color(secondaryBackgroundColor),
-                                ),
-                                height: 140,
-                                width: double.infinity,
-                                child: Image.asset(
-                                  'assets/images/news.jpg',
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Container(
-                                margin: const EdgeInsets.only(top: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: const [
-                                    Text(
-                                      'Peluncuran Internity untuk memantau siswa magang dalam hal absensi dan laporan harian',
-                                      maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    Text(
-                                      '22 Februari 2023',
-                                      style: TextStyle(
-                                        fontSize: 10,
-                                        color: Color(secondaryTextColor),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    )
+
+                    // News Item
+                    const NewsSliderWidget(),
                   ],
                 ),
               ),
