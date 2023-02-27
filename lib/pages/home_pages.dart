@@ -4,6 +4,7 @@ import 'package:internity/theme/colors.dart';
 
 import '../features/login/provider/auth_provider.dart';
 import '../features/news/presentation/news_slider_widget.dart';
+import '../features/profile/provider/profile_provider.dart';
 import '../shared/riverpod_and_hooks.dart';
 
 class HomePages extends StatefulHookConsumerWidget {
@@ -16,7 +17,7 @@ class HomePages extends StatefulHookConsumerWidget {
 class _HomePagesState extends ConsumerState<HomePages> {
   @override
   Widget build(BuildContext context) {
-    final userData = ref.watch(authUserProvider);
+    final userData = ref.watch(profileProvider);
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),

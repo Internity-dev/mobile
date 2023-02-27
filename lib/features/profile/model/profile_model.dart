@@ -42,6 +42,8 @@ class UserModel {
   late final String createdAt;
   late final String updatedAt;
 
+  List<String>? get getSkills => skills?.split(',');
+
   UserModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];

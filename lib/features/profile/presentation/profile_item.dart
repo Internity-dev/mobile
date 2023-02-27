@@ -1,14 +1,18 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:internity/shared/widget/loading_button.dart';
 
 import '../../../shared/riverpod_and_hooks.dart';
 import '../../../theme/colors.dart';
 import '../../login/provider/auth_provider.dart';
+import '../provider/profile_provider.dart';
 
 class ProfileItemWidget extends HookConsumerWidget {
   const ProfileItemWidget({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final profileData = ref.watch(profileProvider);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -23,78 +27,108 @@ class ProfileItemWidget extends HookConsumerWidget {
               bottomRight: Radius.circular(20),
             ),
           ),
-          child: Column(
-            children: [
-              const CircleAvatar(
-                radius: 50,
-                backgroundImage: AssetImage('assets/images/profile.jpg'),
-              ),
-              const SizedBox(height: 10),
-              const Text(
-                textAlign: TextAlign.center,
-                'Muhamad Jamil Fanreza',
-                style: TextStyle(
-                  color: Color(secondaryBackgroundColor),
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-
-              const Text(
-                textAlign: TextAlign.center,
-                'rezaramdhani461@gmail.com',
-                style: TextStyle(
-                  color: Color(secondaryBackgroundColor),
-                  fontSize: 14,
-                ),
-              ),
-              const SizedBox(height: 20),
-
-              // Edit Profile and Edit CV
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Row(
-                    children: const [
-                      Icon(
-                        Icons.edit,
-                        color: Color(secondaryBackgroundColor),
-                        size: 20,
-                      ),
-                      Text(
-                        textAlign: TextAlign.center,
-                        'Edit Profile',
-                        style: TextStyle(
-                          color: Color(secondaryBackgroundColor),
-                          fontSize: 14,
-                          decoration: TextDecoration.underline,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+          child: profileData.when(
+            data: (data) => Column(
+              children: [
+                CachedNetworkImage(
+                  fit: BoxFit.cover,
+                  imageUrl: data.avatar ?? '',
+                  progressIndicatorBuilder: (context, url, downloadProgress) =>
+                      SizedBox(
+                    height: 10,
+                    width: 10,
+                    child: Center(
+                      child: CircularProgressIndicator(
+                          value: downloadProgress.progress),
+                    ),
                   ),
-                  Row(
-                    children: const [
-                      Icon(
-                        Icons.edit_document,
-                        color: Color(secondaryBackgroundColor),
-                        size: 20,
-                      ),
-                      Text(
-                        textAlign: TextAlign.center,
-                        'Edit CV',
-                        style: TextStyle(
-                          color: Color(secondaryBackgroundColor),
-                          fontSize: 14,
-                          decoration: TextDecoration.underline,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+                  errorWidget: (context, url, error) => CircleAvatar(
+                    radius: 50,
+                    backgroundImage: AssetImage(data.gender == 'male'
+                        ? 'assets/images/man.png'
+                        : data.gender == 'female'
+                            ? 'assets/images/woman.png'
+                            : 'assets/images/question.png'),
                   ),
-                ],
-              ),
-            ],
+                  imageBuilder: (context, imageProvider) {
+                    return CircleAvatar(
+                      radius: 50,
+                      backgroundImage: imageProvider,
+                    );
+                  },
+                ),
+
+                const SizedBox(height: 10),
+
+                Text(
+                  textAlign: TextAlign.center,
+                  data.name,
+                  style: const TextStyle(
+                    color: Color(secondaryBackgroundColor),
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+
+                Text(
+                  textAlign: TextAlign.center,
+                  data.email,
+                  style: const TextStyle(
+                    color: Color(secondaryBackgroundColor),
+                    fontSize: 14,
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                // Edit Profile and Edit CV
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Row(
+                      children: const [
+                        Icon(
+                          Icons.edit,
+                          color: Color(secondaryBackgroundColor),
+                          size: 20,
+                        ),
+                        Text(
+                          textAlign: TextAlign.center,
+                          'Edit Profile',
+                          style: TextStyle(
+                            color: Color(secondaryBackgroundColor),
+                            fontSize: 14,
+                            decoration: TextDecoration.underline,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: const [
+                        Icon(
+                          Icons.edit_document,
+                          color: Color(secondaryBackgroundColor),
+                          size: 20,
+                        ),
+                        Text(
+                          textAlign: TextAlign.center,
+                          'Edit CV',
+                          style: TextStyle(
+                            color: Color(secondaryBackgroundColor),
+                            fontSize: 14,
+                            decoration: TextDecoration.underline,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            error: (error, stack) => Center(child: Text(error.toString())),
+            loading: () => const Center(child: CircularProgressIndicator()),
           ),
         ),
 
@@ -102,6 +136,7 @@ class ProfileItemWidget extends HookConsumerWidget {
         Container(
           padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Personal Information
               Column(
@@ -111,63 +146,81 @@ class ProfileItemWidget extends HookConsumerWidget {
                     'Info Saya',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 15),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: const [
-                            Icon(
-                              Icons.male,
-                              color: Color(primaryTextColor),
-                              size: 20,
-                            ),
-                            SizedBox(width: 8),
-                            Expanded(child: Text('Laki-Laki')),
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        Row(
-                          children: const [
-                            Icon(
-                              Icons.location_on_outlined,
-                              color: Color(primaryTextColor),
-                              size: 20,
-                            ),
-                            SizedBox(width: 8),
-                            Expanded(
-                              child: Text(
-                                  'Jalan Karadenan, kampung parakan kembang RT 03 RW 13'),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        Row(
-                          children: const [
-                            Icon(
-                              Icons.call_outlined,
-                              color: Color(primaryTextColor),
-                              size: 20,
-                            ),
-                            SizedBox(width: 8),
-                            Expanded(child: Text('085156526837')),
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        Row(
-                          children: const [
-                            Icon(
-                              Icons.cake_outlined,
-                              color: Color(primaryTextColor),
-                              size: 20,
-                            ),
-                            SizedBox(width: 8),
-                            Expanded(child: Text('Laki-Laki')),
-                          ],
-                        ),
-                      ],
+                  profileData.when(
+                    data: (data) => Container(
+                      margin: const EdgeInsets.only(top: 15),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Icon(
+                                data.gender == 'male'
+                                    ? Icons.male
+                                    : data.gender == 'female'
+                                        ? Icons.female
+                                        : Icons.male_outlined,
+                                color: const Color(primaryTextColor),
+                                size: 20,
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(data.gender == 'male'
+                                    ? 'Laki-Laki'
+                                    : data.gender == 'female'
+                                        ? 'Perempuan'
+                                        : 'Tidak Diketahui'),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.location_on_outlined,
+                                color: Color(primaryTextColor),
+                                size: 20,
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(data.address ?? 'Tidak Diketahui'),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.call_outlined,
+                                color: Color(primaryTextColor),
+                                size: 20,
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                  child: Text(data.phone ?? 'Tidak Diketahui')),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.cake_outlined,
+                                color: Color(primaryTextColor),
+                                size: 20,
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                  child: Text(
+                                      data.dateOfBirth ?? 'Tidak Diketahui')),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  )
+                    error: (error, stack) =>
+                        Center(child: Text(error.toString())),
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                  ),
                 ],
               ),
 
@@ -181,11 +234,16 @@ class ProfileItemWidget extends HookConsumerWidget {
                     'Tentang Saya',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 15),
-                    child: const Text(
-                        'Junior Frontend Developer, love to code and learn more about software engineering and software architecture, happy to contribute to open source also sometimes trading in cryptocurrency'),
-                  )
+                  profileData.when(
+                    data: (data) => Container(
+                      margin: const EdgeInsets.only(top: 15),
+                      child: Text(data.bio ?? 'Tidak Diketahui'),
+                    ),
+                    error: (error, stack) =>
+                        Center(child: Text(error.toString())),
+                    loading: () =>
+                        const Center(child: CircularProgressIndicator()),
+                  ),
                 ],
               ),
 
@@ -203,19 +261,24 @@ class ProfileItemWidget extends HookConsumerWidget {
                   Container(
                     margin: const EdgeInsets.only(top: 15),
                     width: double.infinity,
-                    child: Wrap(
-                      spacing: 10,
-                      children: const [
-                        Chip(label: Text('Vue.Js')),
-                        Chip(label: Text('Javascripts')),
-                        Chip(label: Text('HTML')),
-                        Chip(label: Text('CSS')),
-                        Chip(label: Text('SCSS')),
-                        Chip(label: Text('Flutter')),
-                        Chip(label: Text('Dart')),
-                        Chip(label: Text('Bootstrap')),
-                      ],
-                    ),
+                    child: profileData.when(
+                        data: (data) {
+                          return data.getSkills != null &&
+                                  data.getSkills!.isNotEmpty
+                              ? Wrap(
+                                  spacing: 10,
+                                  children: data.getSkills
+                                          ?.map((skill) =>
+                                              Chip(label: Text(skill)))
+                                          .toList() ??
+                                      [],
+                                )
+                              : const Center(child: Text('Tidak Diketahui'));
+                        },
+                        error: (error, stack) =>
+                            Center(child: Text(error.toString())),
+                        loading: () =>
+                            const Center(child: CircularProgressIndicator())),
                   )
                 ],
               ),

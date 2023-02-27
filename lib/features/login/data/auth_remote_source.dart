@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dartz/dartz.dart';
-import 'package:internity/features/profile/model/user.dart';
+import 'package:internity/features/profile/model/profile_model.dart';
 
 import '../../../shared/provider/dio_provider.dart';
 import '../../../shared/provider/shared_pref_provider.dart';

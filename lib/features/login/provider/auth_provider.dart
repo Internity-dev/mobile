@@ -2,7 +2,7 @@ import '../../../shared/provider/shared_pref_provider.dart';
 import '../../../shared/riverpod_and_hooks.dart';
 import '../../onboarding/provider/onboarding_provider.dart';
 
-import '../../profile/model/user.dart';
+import '../../profile/model/profile_model.dart';
 import '../data/auth_remote_source.dart';
 import '../model/login_state.dart';
 
@@ -59,8 +59,6 @@ final isUserLoginProvider = FutureProvider<UserStatus>((ref) async {
   ref.watch(authProvider);
   ref.watch(onboardingProvider);
   await ref.watch(authUserProvider.future);
-
-  // Script below is not working
 
   final prefs = await ref.watch(sharedPrefProvider);
 
