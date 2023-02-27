@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../shared/riverpod_and_hooks.dart';
 import '../../../theme/colors.dart';
@@ -39,20 +40,21 @@ class _NewsSliderWidgetState extends ConsumerState<NewsSliderWidget> {
                   height: 140,
                   width: double.infinity,
                   child: CachedNetworkImage(
-                    fit: BoxFit.cover,
-                    imageUrl: data[index].image,
-                    progressIndicatorBuilder:
-                        (context, url, downloadProgress) => SizedBox(
-                      height: 10,
-                      width: 10,
-                      child: Center(
-                        child: CircularProgressIndicator(
-                            value: downloadProgress.progress),
-                      ),
-                    ),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                  ),
+                      fit: BoxFit.cover,
+                      imageUrl: data[index].image,
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) => SizedBox(
+                                height: 10,
+                                width: 10,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                      value: downloadProgress.progress),
+                                ),
+                              ),
+                      errorWidget: (context, url, error) => const SizedBox(
+                          height: 10,
+                          width: 10,
+                          child: Center(child: Icon(Icons.error)))),
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: 10),
@@ -78,7 +80,8 @@ class _NewsSliderWidgetState extends ConsumerState<NewsSliderWidget> {
                         ),
                       ),
                       Text(
-                        data[index].createdAt,
+                        DateFormat.yMMMMd()
+                            .format(DateTime.parse(data[index].createdAt)),
                         style: const TextStyle(
                           fontSize: 10,
                           color: Color(secondaryTextColor),

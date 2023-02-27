@@ -43,7 +43,7 @@ class AuthRemoteSource {
   }
 
   // Get user auth method
-  Future<Either<String, UserModel>> getUserAuth() async {
+  Future getUserAuth() async {
     final prefs = await ref.watch(sharedPrefProvider);
 
     try {
@@ -60,15 +60,15 @@ class AuthRemoteSource {
 
       UserModel jsonResult = UserModel.fromJson(response.data);
 
-      return Right(jsonResult);
+      return jsonResult;
     } on DioError catch (e) {
       if (e.response?.statusCode == 401) {
         prefs.remove('token');
 
-        return Left(e.message);
+        return e.message;
       }
 
-      return Left(e.message);
+      return e.message;
     }
   }
 

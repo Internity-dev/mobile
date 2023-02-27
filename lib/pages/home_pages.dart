@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:internity/features/upload_cv/presentation/upload_cv_widget.dart';
 import 'package:internity/theme/colors.dart';
 
+import '../features/login/provider/auth_provider.dart';
 import '../features/news/presentation/news_slider_widget.dart';
 import '../shared/riverpod_and_hooks.dart';
 
@@ -15,6 +16,8 @@ class HomePages extends StatefulHookConsumerWidget {
 class _HomePagesState extends ConsumerState<HomePages> {
   @override
   Widget build(BuildContext context) {
+    final userData = ref.watch(authUserProvider);
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
@@ -41,15 +44,15 @@ class _HomePagesState extends ConsumerState<HomePages> {
                         // Greeting
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
+                          children: [
                             Text(
-                              'Hai, Jamil',
-                              style: TextStyle(
+                              'Hai, ${userData.value?.name ?? ' '}',
+                              style: const TextStyle(
                                 color: Color(secondaryBackgroundColor),
                                 fontSize: 20,
                               ),
                             ),
-                            Text(
+                            const Text(
                               'mau magang dimana?',
                               style: TextStyle(
                                 color: Color(secondaryBackgroundColor),

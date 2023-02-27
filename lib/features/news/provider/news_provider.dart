@@ -5,7 +5,7 @@ import '../repository/news_repository.dart';
 
 final newsProvider = FutureProvider.autoDispose<List<NewsModel>>((ref) async {
   try {
-    final result = await ref.read(newsRepositoryProvider).getNews();
+    final result = await ref.watch(newsRepositoryProvider).getNews();
 
     return result;
   } catch (e) {
