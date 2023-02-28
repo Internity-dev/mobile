@@ -11,8 +11,6 @@ class UploadCV extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(uploadCVProvider);
-
     var isUploadLoading = useState(false);
 
     return Container(

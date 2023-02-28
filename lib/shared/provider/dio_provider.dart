@@ -3,9 +3,9 @@ import 'package:internity/shared/provider/shared_pref_provider.dart';
 
 import '../../shared/riverpod_and_hooks.dart';
 
-final dioProvider = Provider.family<Dio, String?>((ref, token) {
+final dioProvider = Provider<Dio>((ref) {
   final dio = Dio();
-  dio.options.baseUrl = 'http://192.168.137.1:8000/';
+  dio.options.baseUrl = 'http://192.168.235.143:8000/';
   // dio.options.connectTimeout = 5000;
   // dio.options.receiveTimeout = 3000;
   dio.options.headers['Accept'] = 'application/json';
@@ -19,10 +19,20 @@ final dioProvider = Provider.family<Dio, String?>((ref, token) {
 
       return handler.next(DioError(
         requestOptions: e.requestOptions,
-        error: e.response?.data['message'] ?? 'Maaf Server Sedang Sibuk',
+        error: e.response?.data['message'] ??
+            'Something went wrong or Server is Bussy',
         type: e.type,
         response: e.response,
       ));
+    },
+    onRequest: (options, handler) async {
+      final prefs = await ref.watch(sharedPrefProvider);
+
+      if (prefs.getString('token') != null) {
+        options.headers['Authorization'] = 'Bearer ${prefs.getString('token')}';
+      }
+
+      return handler.next(options);
     },
   ));
 

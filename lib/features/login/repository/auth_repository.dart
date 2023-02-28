@@ -7,11 +7,11 @@ import '../../../shared/provider/shared_pref_provider.dart';
 import '../../../shared/riverpod_and_hooks.dart';
 import '../model/auth.dart';
 
-class AuthRemoteSource {
+class AuthRepository {
   final Dio dio;
   final Ref ref;
 
-  AuthRemoteSource({required this.dio, required this.ref});
+  AuthRepository({required this.dio, required this.ref});
 
   // Login Method
   Future<Either<String, AuthModel>> login(
@@ -44,8 +44,6 @@ class AuthRemoteSource {
 
   // Get user auth method
   Future getUserAuth() async {
-    final prefs = await ref.watch(sharedPrefProvider);
-
     try {
       final response = await dio.get(
         'api/me',
@@ -53,7 +51,6 @@ class AuthRemoteSource {
           headers: {
             'Accept': 'application/json',
             'Content-type': 'application/json',
-            'Authorization': 'Bearer ${prefs.getString('token')}'
           },
         ),
       );
@@ -62,12 +59,6 @@ class AuthRemoteSource {
 
       return jsonResult;
     } on DioError catch (e) {
-      if (e.response?.statusCode == 401) {
-        prefs.remove('token');
-
-        return e.message;
-      }
-
       return e.message;
     }
   }
@@ -83,7 +74,6 @@ class AuthRemoteSource {
           headers: {
             'Accept': 'application/json',
             'Content-type': 'application/json',
-            'Authorization': 'Bearer ${prefs.getString('token')}'
           },
         ),
       );
@@ -97,9 +87,9 @@ class AuthRemoteSource {
   }
 }
 
-final authRemoteSourceProvider = Provider<AuthRemoteSource>((ref) {
-  return AuthRemoteSource(
-    dio: ref.watch(dioProvider(null)),
+final authRepositoryProvider = Provider<AuthRepository>((ref) {
+  return AuthRepository(
+    dio: ref.watch(dioProvider),
     ref: ref,
   );
 });

@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 
-import '../../../shared/provider/shared_pref_provider.dart';
+import '../../../shared/provider/dio_provider.dart';
 import '../../../shared/riverpod_and_hooks.dart';
 
-class UploadCVFileLocalSource {
-  UploadCVFileLocalSource({required this.dio, required this.ref});
+class UploadCVRepository {
+  UploadCVRepository({required this.dio, required this.ref});
 
   final Dio dio;
   final Ref ref;
@@ -34,8 +34,6 @@ class UploadCVFileLocalSource {
         "resume": file,
       });
 
-      final prefs = await ref.watch(sharedPrefProvider);
-
       var response = await dio.post(
         'api/resumes',
         data: formData,
@@ -43,12 +41,9 @@ class UploadCVFileLocalSource {
           headers: {
             'Accept': 'application/json',
             'Content-type': 'multipart/form-data',
-            'Authorization': 'Bearer ${prefs.getString('token')}',
           },
         ),
       );
-
-      print(response);
 
       return response;
     } catch (e) {
@@ -56,3 +51,7 @@ class UploadCVFileLocalSource {
     }
   }
 }
+
+final uploadCVRepositoryProvider = Provider((ref) {
+  return UploadCVRepository(dio: ref.watch(dioProvider), ref: ref);
+});

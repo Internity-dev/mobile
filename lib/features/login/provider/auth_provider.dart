@@ -2,14 +2,13 @@ import '../../../shared/provider/shared_pref_provider.dart';
 import '../../../shared/riverpod_and_hooks.dart';
 import '../../onboarding/provider/onboarding_provider.dart';
 
-import '../../profile/model/profile_model.dart';
-import '../data/auth_remote_source.dart';
+import '../repository/auth_repository.dart';
 import '../model/login_state.dart';
 
 class Auth extends StateNotifier<AuthState> {
   Auth(this._authRemoteSource) : super(const AuthState.initial());
 
-  final AuthRemoteSource _authRemoteSource;
+  final AuthRepository _authRemoteSource;
 
   // Login Method implementation
   Future<void> login({
@@ -41,13 +40,13 @@ class Auth extends StateNotifier<AuthState> {
 // Auth Function
 final authProvider = StateNotifierProvider<Auth, AuthState>((ref) {
   return Auth(
-    ref.watch(authRemoteSourceProvider),
+    ref.watch(authRepositoryProvider),
   );
 });
 
 // Get auth User data
 final authUserProvider = FutureProvider((ref) async {
-  final result = await ref.watch(authRemoteSourceProvider).getUserAuth();
+  final result = await ref.watch(authRepositoryProvider).getUserAuth();
 
   return result;
 });
