@@ -20,6 +20,8 @@ class UserModel {
     this.lastLoginIp,
     required this.createdAt,
     required this.updatedAt,
+    this.avatarUrl,
+    this.resumeUrl,
   });
   late final int id;
   late final String name;
@@ -41,6 +43,8 @@ class UserModel {
   String? lastLoginIp;
   late final String createdAt;
   late final String updatedAt;
+  String? avatarUrl;
+  String? resumeUrl;
 
   List<String>? get getSkills => skills?.split(',');
 
@@ -65,6 +69,8 @@ class UserModel {
     lastLoginIp = json['last_login_ip'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    avatarUrl = json['avatar_url'];
+    resumeUrl = json['resume_url'];
   }
 
   Map<String, dynamic> toJson() {
@@ -89,6 +95,8 @@ class UserModel {
     data['last_login_ip'] = lastLoginIp;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    data['avatar_url'] = avatarUrl;
+    data['resume_url'] = resumeUrl;
     return data;
   }
 }

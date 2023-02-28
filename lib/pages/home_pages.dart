@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:internity/features/upload_cv/presentation/upload_cv_widget.dart';
 import 'package:internity/theme/colors.dart';
@@ -5,6 +6,7 @@ import 'package:internity/theme/colors.dart';
 import '../features/login/provider/auth_provider.dart';
 import '../features/news/presentation/news_slider_widget.dart';
 import '../features/profile/provider/profile_provider.dart';
+import '../features/vacancies/provider/vacancies_provider.dart';
 import '../shared/riverpod_and_hooks.dart';
 
 class HomePages extends StatefulHookConsumerWidget {
@@ -18,12 +20,14 @@ class _HomePagesState extends ConsumerState<HomePages> {
   @override
   Widget build(BuildContext context) {
     final userData = ref.watch(profileProvider);
+    final recommendedVacanciesData = ref.watch(recommendedVacanciesProvider);
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         body: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Header
               Container(
@@ -157,7 +161,125 @@ class _HomePagesState extends ConsumerState<HomePages> {
               ),
 
               // Upload CV
-              const UploadCV(),
+              userData.when(
+                  data: (data) {
+                    if (data.resumeUrl == null) {
+                      return const UploadCV();
+                    } else {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 25, vertical: 30),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Rekomendasi Untukmu',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500, fontSize: 16),
+                            ),
+                            recommendedVacanciesData.when(
+                              data: (data) {
+                                if (data.isNotEmpty) {
+                                  return Column(
+                                    children: data.map((item) {
+                                      return Container(
+                                        margin: const EdgeInsets.only(top: 15),
+                                        child: Row(
+                                          children: [
+                                            CachedNetworkImage(
+                                                width: 50,
+                                                fit: BoxFit.cover,
+                                                imageUrl: item.company.logo,
+                                                progressIndicatorBuilder:
+                                                    (context, url,
+                                                            downloadProgress) =>
+                                                        SizedBox(
+                                                          height: 50,
+                                                          child: Center(
+                                                            child: CircularProgressIndicator(
+                                                                value: downloadProgress
+                                                                    .progress),
+                                                          ),
+                                                        ),
+                                                errorWidget: (context, url,
+                                                        error) =>
+                                                    const SizedBox(
+                                                        height: 50,
+                                                        child: Center(
+                                                            child: Icon(
+                                                                Icons.error)))),
+                                            Expanded(
+                                              child: Container(
+                                                margin:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 10),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      item.name,
+                                                      style: const TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 14,
+                                                      ),
+                                                    ),
+                                                    Text(item.company.name,
+                                                        style: const TextStyle(
+                                                            fontSize: 12)),
+                                                    Text(
+                                                      item.company.city,
+                                                      style: const TextStyle(
+                                                          fontSize: 12,
+                                                          color: Color(
+                                                              secondaryTextColor)),
+                                                    ),
+                                                    Text(
+                                                      '${item.applied} Pendaftar',
+                                                      style: const TextStyle(
+                                                          fontSize: 12,
+                                                          color: Color(
+                                                              primaryColor)),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                            const Icon(Icons.bookmark_outline),
+                                          ],
+                                        ),
+                                      );
+                                    }).toList(),
+                                  );
+                                } else {
+                                  return Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                          // color: Colors.red,
+                                          margin:
+                                              const EdgeInsets.only(top: 50),
+                                          child: const Center(
+                                              child: Text('Tidak ada data'))),
+                                    ],
+                                  );
+                                }
+                              },
+                              error: (error, stack) =>
+                                  Center(child: Text(error.toString())),
+                              loading: () => const Center(
+                                  child: CircularProgressIndicator()),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  },
+                  error: (error, stack) =>
+                      Center(child: Text(error.toString())),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator())),
             ],
           ),
         ),

@@ -22,6 +22,7 @@ class _VacanciesItemWidgetState extends ConsumerState<VacanciesItemWidget> {
     return Container(
       margin: const EdgeInsets.all(15),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Search Bar
           Container(
@@ -120,68 +121,86 @@ class _VacanciesItemWidgetState extends ConsumerState<VacanciesItemWidget> {
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                 ),
                 recommendedVacanciesData.when(
-                  data: (data) => Column(
-                    children: data.map((item) {
-                      return Container(
-                        margin: const EdgeInsets.only(top: 15),
-                        child: Row(
-                          children: [
-                            CachedNetworkImage(
-                                width: 50,
-                                fit: BoxFit.cover,
-                                imageUrl: item.company.logo,
-                                progressIndicatorBuilder: (context, url,
-                                        downloadProgress) =>
-                                    SizedBox(
-                                      height: 50,
-                                      child: Center(
-                                        child: CircularProgressIndicator(
-                                            value: downloadProgress.progress),
-                                      ),
+                  data: (data) {
+                    if (data.isNotEmpty) {
+                      return Column(
+                        children: data.map((item) {
+                          return Container(
+                            margin: const EdgeInsets.only(top: 15),
+                            child: Row(
+                              children: [
+                                CachedNetworkImage(
+                                    width: 50,
+                                    fit: BoxFit.cover,
+                                    imageUrl: item.company.logo,
+                                    progressIndicatorBuilder: (context, url,
+                                            downloadProgress) =>
+                                        SizedBox(
+                                          height: 50,
+                                          child: Center(
+                                            child: CircularProgressIndicator(
+                                                value:
+                                                    downloadProgress.progress),
+                                          ),
+                                        ),
+                                    errorWidget: (context, url, error) =>
+                                        const SizedBox(
+                                            height: 50,
+                                            child: Center(
+                                                child: Icon(Icons.error)))),
+                                Expanded(
+                                  child: Container(
+                                    margin: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          item.name,
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                        Text(item.company.name,
+                                            style:
+                                                const TextStyle(fontSize: 12)),
+                                        Text(
+                                          item.company.city,
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Color(secondaryTextColor)),
+                                        ),
+                                        Text(
+                                          '${item.applied} Pendaftar',
+                                          style: const TextStyle(
+                                              fontSize: 12,
+                                              color: Color(primaryColor)),
+                                        ),
+                                      ],
                                     ),
-                                errorWidget: (context, url, error) =>
-                                    const SizedBox(
-                                        height: 50,
-                                        child:
-                                            Center(child: Icon(Icons.error)))),
-                            Expanded(
-                              child: Container(
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      item.name,
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                    Text(item.company.name,
-                                        style: const TextStyle(fontSize: 12)),
-                                    Text(
-                                      item.company.city,
-                                      style: const TextStyle(
-                                          fontSize: 12,
-                                          color: Color(secondaryTextColor)),
-                                    ),
-                                    Text(
-                                      '${item.applied} Pendaftar',
-                                      style: const TextStyle(
-                                          fontSize: 12,
-                                          color: Color(primaryColor)),
-                                    ),
-                                  ],
+                                  ),
                                 ),
-                              ),
+                                const Icon(Icons.bookmark_outline),
+                              ],
                             ),
-                            const Icon(Icons.bookmark_outline),
-                          ],
-                        ),
+                          );
+                        }).toList(),
                       );
-                    }).toList(),
-                  ),
+                    } else {
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                              // color: Colors.red,
+                              margin: const EdgeInsets.only(top: 50),
+                              child:
+                                  const Center(child: Text('Tidak ada data'))),
+                        ],
+                      );
+                    }
+                  },
                   error: (error, stack) =>
                       Center(child: Text(error.toString())),
                   loading: () =>

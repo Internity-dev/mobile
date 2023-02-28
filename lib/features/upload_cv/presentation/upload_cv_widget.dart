@@ -4,6 +4,7 @@ import 'package:internity/shared/widget/loading_button.dart';
 import '../../../shared/riverpod_and_hooks.dart';
 import '../../../shared/widget/snackbar_error.dart';
 import '../../../theme/colors.dart';
+import '../../profile/provider/profile_provider.dart';
 import '../provider/upload_cv_provider.dart';
 
 class UploadCV extends HookConsumerWidget {
@@ -55,11 +56,11 @@ class UploadCV extends HookConsumerWidget {
               text: "Upload CV",
               onPressed: () {
                 isUploadLoading.value = true;
-                ref
-                    .read(uploadCVProvider)
-                    .uploadCVFile()
-                    .then((value) => isUploadLoading.value = false)
-                    .onError((error, stackTrace) {
+                ref.read(uploadCVProvider).uploadCVFile().then((value) {
+                  ref.refresh(profileProvider);
+
+                  return isUploadLoading.value = false;
+                }).onError((error, stackTrace) {
                   isUploadLoading.value = false;
                   SnackbarError.showErrorSnackbar(
                       context, error.toString(), ref);
