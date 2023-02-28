@@ -5,6 +5,7 @@ import '../shared/provider/bottom_bar_provider.dart';
 import '../shared/riverpod_and_hooks.dart';
 import '../shared/widget/bottom_bar.dart';
 import 'profile_pages.dart';
+import 'vacancies_pages.dart';
 
 class MainPages extends StatefulHookConsumerWidget {
   const MainPages({super.key});
@@ -24,7 +25,7 @@ class _MainPagesState extends ConsumerState<MainPages> {
         child: Text('Search'),
       ),
       const Center(
-        child: Text('Add'),
+        child: VacanciesPages(),
       ),
       const ProfilePage()
     ];
