@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../../../shared/provider/dio_provider.dart';
 import '../../../shared/riverpod_and_hooks.dart';
+import '../model/recommended_vacancies_model.dart';
 import '../model/vacancies_model.dart';
 
 class VacanciesRepository {
@@ -10,6 +11,7 @@ class VacanciesRepository {
 
   VacanciesRepository(this.ref, this.dio);
 
+  // Get vacancies list
   Future<List<VacanciesModel>> getVacancies() async {
     try {
       final response = await dio.get('/api/vacancies');
@@ -17,6 +19,21 @@ class VacanciesRepository {
       Iterable list = response.data['vacancies'];
       List<VacanciesModel> data =
           list.map((e) => VacanciesModel.fromJson(e)).toList();
+
+      return data;
+    } on DioError catch (e) {
+      throw e.message;
+    }
+  }
+
+  // Get recommended vacancies list
+  Future<List<RecommendedVacanciesModel>> getRecommendedVacancies() async {
+    try {
+      final response = await dio.get('/api/vacancies/recommended');
+
+      Iterable list = response.data['vacancies'];
+      List<RecommendedVacanciesModel> data =
+          list.map((e) => RecommendedVacanciesModel.fromJson(e)).toList();
 
       return data;
     } on DioError catch (e) {

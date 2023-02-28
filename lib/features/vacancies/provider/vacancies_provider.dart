@@ -1,9 +1,17 @@
 import '../../../shared/riverpod_and_hooks.dart';
+import '../model/recommended_vacancies_model.dart';
 import '../model/vacancies_model.dart';
 import '../repository/vacancies_repository.dart';
 
 final vacanciesProvider = FutureProvider.autoDispose<List<VacanciesModel>>(
   (ref) async {
     return ref.watch(vacanciesRepositoryProvider).getVacancies();
+  },
+);
+
+final recommendedVacanciesProvider =
+    FutureProvider.autoDispose<List<RecommendedVacanciesModel>>(
+  (ref) async {
+    return ref.watch(vacanciesRepositoryProvider).getRecommendedVacancies();
   },
 );

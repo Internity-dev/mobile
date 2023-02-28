@@ -17,6 +17,7 @@ class _VacanciesItemWidgetState extends ConsumerState<VacanciesItemWidget> {
   @override
   Widget build(BuildContext context) {
     final vacanciesData = ref.watch(vacanciesProvider);
+    final recommendedVacanciesData = ref.watch(recommendedVacanciesProvider);
 
     return Container(
       margin: const EdgeInsets.all(15),
@@ -108,69 +109,169 @@ class _VacanciesItemWidgetState extends ConsumerState<VacanciesItemWidget> {
             ),
           ),
 
+          // Recommended Vacancies Item
           Container(
             margin: const EdgeInsets.only(top: 15),
-            child: vacanciesData.when(
-              data: (data) => Column(
-                children: data.map((item) {
-                  return Container(
-                    margin: const EdgeInsets.only(top: 15),
-                    child: Row(
-                      children: [
-                        CachedNetworkImage(
-                            width: 50,
-                            fit: BoxFit.cover,
-                            imageUrl: item.company.logo,
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) => SizedBox(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Rekomendasi Untukmu',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                ),
+                recommendedVacanciesData.when(
+                  data: (data) => Column(
+                    children: data.map((item) {
+                      return Container(
+                        margin: const EdgeInsets.only(top: 15),
+                        child: Row(
+                          children: [
+                            CachedNetworkImage(
+                                width: 50,
+                                fit: BoxFit.cover,
+                                imageUrl: item.company.logo,
+                                progressIndicatorBuilder: (context, url,
+                                        downloadProgress) =>
+                                    SizedBox(
                                       height: 50,
                                       child: Center(
                                         child: CircularProgressIndicator(
                                             value: downloadProgress.progress),
                                       ),
                                     ),
-                            errorWidget: (context, url, error) =>
-                                const SizedBox(
-                                    height: 50,
-                                    child: Center(child: Icon(Icons.error)))),
-                        Expanded(
-                          child: Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item.name,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                  ),
+                                errorWidget: (context, url, error) =>
+                                    const SizedBox(
+                                        height: 50,
+                                        child:
+                                            Center(child: Icon(Icons.error)))),
+                            Expanded(
+                              child: Container(
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item.name,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    Text(item.company.name,
+                                        style: const TextStyle(fontSize: 12)),
+                                    Text(
+                                      item.company.city,
+                                      style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Color(secondaryTextColor)),
+                                    ),
+                                    Text(
+                                      '${item.applied} Pendaftar',
+                                      style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Color(primaryColor)),
+                                    ),
+                                  ],
                                 ),
-                                Text(item.company.name,
-                                    style: const TextStyle(fontSize: 12)),
-                                Text(
-                                  item.company.city,
-                                  style: const TextStyle(
-                                      fontSize: 12,
-                                      color: Color(secondaryTextColor)),
-                                ),
-                                Text(
-                                  '${item.applied} Pendaftar',
-                                  style: const TextStyle(
-                                      fontSize: 12, color: Color(primaryColor)),
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
+                            const Icon(Icons.bookmark_outline),
+                          ],
                         ),
-                        const Icon(Icons.bookmark_outline),
-                      ],
-                    ),
-                  );
-                }).toList(),
-              ),
-              error: (error, stack) => Center(child: Text(error.toString())),
-              loading: () => const Center(child: CircularProgressIndicator()),
+                      );
+                    }).toList(),
+                  ),
+                  error: (error, stack) =>
+                      Center(child: Text(error.toString())),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                ),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 50),
+
+          // Vacancies Item
+          Container(
+            margin: const EdgeInsets.only(top: 15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Magang Terbaru',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                ),
+                vacanciesData.when(
+                  data: (data) => Column(
+                    children: data.map((item) {
+                      return Container(
+                        margin: const EdgeInsets.only(top: 15),
+                        child: Row(
+                          children: [
+                            CachedNetworkImage(
+                                width: 50,
+                                fit: BoxFit.cover,
+                                imageUrl: item.company.logo,
+                                progressIndicatorBuilder: (context, url,
+                                        downloadProgress) =>
+                                    SizedBox(
+                                      height: 50,
+                                      child: Center(
+                                        child: CircularProgressIndicator(
+                                            value: downloadProgress.progress),
+                                      ),
+                                    ),
+                                errorWidget: (context, url, error) =>
+                                    const SizedBox(
+                                        height: 50,
+                                        child:
+                                            Center(child: Icon(Icons.error)))),
+                            Expanded(
+                              child: Container(
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item.name,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                    Text(item.company.name,
+                                        style: const TextStyle(fontSize: 12)),
+                                    Text(
+                                      item.company.city,
+                                      style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Color(secondaryTextColor)),
+                                    ),
+                                    Text(
+                                      '${item.applied} Pendaftar',
+                                      style: const TextStyle(
+                                          fontSize: 12,
+                                          color: Color(primaryColor)),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const Icon(Icons.bookmark_outline),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                  error: (error, stack) =>
+                      Center(child: Text(error.toString())),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                ),
+              ],
             ),
           )
         ],
