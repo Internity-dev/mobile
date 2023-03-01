@@ -246,7 +246,7 @@ class _HomePagesState extends ConsumerState<HomePages> {
                                                 ),
                                               ),
                                             ),
-                                            const Icon(Icons.bookmark_outline),
+                                            // const Icon(Icons.bookmark_outline),
                                           ],
                                         ),
                                       );

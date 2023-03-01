@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:internity/features/login/provider/auth_provider.dart';
+import 'package:internity/pages/vacancies_status_pages.dart';
 import 'package:internity/shared/riverpod_and_hooks.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -84,6 +85,7 @@ class _MyAppState extends ConsumerState<MyApp> {
         '/onboard': (context) => const OnboardingPage(),
         '/register': (context) => const RegisterPage(),
         '/main': (context) => const MainPages(),
+        '/vacancies-status': (context) => const VacanciesStatusPages(),
       },
     );
   }

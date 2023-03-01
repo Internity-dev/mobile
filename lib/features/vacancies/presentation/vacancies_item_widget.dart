@@ -59,54 +59,59 @@ class _VacanciesItemWidgetState extends ConsumerState<VacanciesItemWidget> {
           ),
 
           // Navigation Item
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            clipBehavior: Clip.antiAlias,
-            child: Row(
-              children: [
-                TextButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.bookmark_outline,
-                    color: Color(primaryTextColor),
-                  ),
-                  label: const Text(
-                    "Tersimpan",
-                    style: TextStyle(
-                      decoration: TextDecoration.underline,
+          Container(
+            margin: const EdgeInsets.only(top: 15),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              clipBehavior: Clip.antiAlias,
+              child: Row(
+                children: [
+                  // TextButton.icon(
+                  //   onPressed: () {},
+                  //   icon: const Icon(
+                  //     Icons.bookmark_outline,
+                  //     color: Color(primaryTextColor),
+                  //   ),
+                  //   label: const Text(
+                  //     "Tersimpan",
+                  //     style: TextStyle(
+                  //       decoration: TextDecoration.underline,
+                  //       color: Color(primaryTextColor),
+                  //     ),
+                  //   ),
+                  // ),
+                  TextButton.icon(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/vacancies-status');
+                    },
+                    icon: const Icon(
+                      Icons.pending_actions_outlined,
                       color: Color(primaryTextColor),
                     ),
-                  ),
-                ),
-                TextButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.pending_actions_outlined,
-                    color: Color(primaryTextColor),
-                  ),
-                  label: const Text(
-                    "Status Pendaftaran",
-                    style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      color: Color(primaryTextColor),
+                    label: const Text(
+                      "Status Pendaftaran",
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Color(primaryTextColor),
+                      ),
                     ),
                   ),
-                ),
-                TextButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.work_outline_rounded,
-                    color: Color(primaryTextColor),
-                  ),
-                  label: const Text(
-                    "MagangKu",
-                    style: TextStyle(
-                      decoration: TextDecoration.underline,
+                  TextButton.icon(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.work_outline_rounded,
                       color: Color(primaryTextColor),
                     ),
-                  ),
-                )
-              ],
+                    label: const Text(
+                      "MagangKu",
+                      style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Color(primaryTextColor),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
 
@@ -118,7 +123,7 @@ class _VacanciesItemWidgetState extends ConsumerState<VacanciesItemWidget> {
               children: [
                 const Text(
                   'Rekomendasi Untukmu',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
                 ),
                 recommendedVacanciesData.when(
                   data: (data) {
@@ -182,7 +187,7 @@ class _VacanciesItemWidgetState extends ConsumerState<VacanciesItemWidget> {
                                     ),
                                   ),
                                 ),
-                                const Icon(Icons.bookmark_outline),
+                                // const Icon(Icons.bookmark_outline),
                               ],
                             ),
                           );
@@ -220,7 +225,7 @@ class _VacanciesItemWidgetState extends ConsumerState<VacanciesItemWidget> {
               children: [
                 const Text(
                   'Magang Terbaru',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
                 ),
                 vacanciesData.when(
                   data: (data) => Column(
@@ -279,7 +284,7 @@ class _VacanciesItemWidgetState extends ConsumerState<VacanciesItemWidget> {
                                 ),
                               ),
                             ),
-                            const Icon(Icons.bookmark_outline),
+                            // const Icon(Icons.bookmark_outline),
                           ],
                         ),
                       );
