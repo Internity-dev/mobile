@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import 'pages/login_pages.dart';
+import 'pages/my_intern_pages.dart';
 import 'pages/onboarding_pages.dart';
 import 'pages/register_pages.dart';
 import 'theme/colors.dart';
@@ -100,6 +101,7 @@ class _MyAppState extends ConsumerState<MyApp> {
         '/register': (context) => const RegisterPage(),
         '/main': (context) => const MainPages(),
         '/vacancies-status': (context) => const VacanciesStatusPages(),
+        '/my-intern': (context) => const MyInternPages(),
       },
     );
   }

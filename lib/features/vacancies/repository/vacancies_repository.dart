@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import '../../../shared/provider/dio_provider.dart';
 import '../../../shared/riverpod_and_hooks.dart';
 import '../model/intern_regist_status_model.dart';
+import '../model/my_intern_model.dart';
 import '../model/recommended_vacancies_model.dart';
 import '../model/vacancies_model.dart';
 
@@ -50,6 +51,21 @@ class VacanciesRepository {
       Iterable list = response.data['appliances'];
       List<InternRegistStatusModel> data =
           list.map((e) => InternRegistStatusModel.fromJson(e)).toList();
+
+      return data;
+    } on DioError catch (e) {
+      throw e.message;
+    }
+  }
+
+  // Get My intern data
+  Future<List<MyInternModel>> getMyIntern() async {
+    try {
+      final response = await dio.get('/api/appliances/accepted');
+
+      Iterable list = response.data['appliances'];
+      List<MyInternModel> data =
+          list.map((e) => MyInternModel.fromJson(e)).toList();
 
       return data;
     } on DioError catch (e) {

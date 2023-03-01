@@ -97,7 +97,9 @@ class _VacanciesItemWidgetState extends ConsumerState<VacanciesItemWidget> {
                     ),
                   ),
                   TextButton.icon(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/my-intern');
+                    },
                     icon: const Icon(
                       Icons.work_outline_rounded,
                       color: Color(primaryTextColor),
