@@ -7,6 +7,7 @@ import 'package:internity/pages/vacancies_status_pages.dart';
 import 'package:internity/shared/riverpod_and_hooks.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import 'pages/login_pages.dart';
 import 'pages/onboarding_pages.dart';
@@ -74,9 +75,22 @@ class _MyAppState extends ConsumerState<MyApp> {
                 return const LoginPage();
               },
               loading: () {
-                return const Scaffold(
+                return Scaffold(
                   body: Center(
-                    child: CircularProgressIndicator(),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        LoadingAnimationWidget.stretchedDots(
+                            color: const Color(primaryColor), size: 80),
+                        Container(
+                          margin: const EdgeInsets.only(top: 20),
+                          child: const Text(
+                            'Memuat Halaman',
+                            style: TextStyle(fontSize: 14),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               })),

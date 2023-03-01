@@ -257,7 +257,6 @@ class _HomePagesState extends ConsumerState<HomePages> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Container(
-                                          // color: Colors.red,
                                           margin:
                                               const EdgeInsets.only(top: 50),
                                           child: const Center(
@@ -266,8 +265,9 @@ class _HomePagesState extends ConsumerState<HomePages> {
                                   );
                                 }
                               },
-                              error: (error, stack) =>
-                                  Center(child: Text(error.toString())),
+                              error: (error, stack) => Container(
+                                  margin: const EdgeInsets.only(top: 50),
+                                  child: Center(child: Text(error.toString()))),
                               loading: () => const Center(
                                   child: CircularProgressIndicator()),
                             ),

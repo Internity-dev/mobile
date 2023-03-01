@@ -206,8 +206,9 @@ class _VacanciesItemWidgetState extends ConsumerState<VacanciesItemWidget> {
                       );
                     }
                   },
-                  error: (error, stack) =>
-                      Center(child: Text(error.toString())),
+                  error: (error, stack) => Container(
+                      margin: const EdgeInsets.only(top: 50),
+                      child: Center(child: Text(error.toString()))),
                   loading: () =>
                       const Center(child: CircularProgressIndicator()),
                 ),
@@ -290,8 +291,9 @@ class _VacanciesItemWidgetState extends ConsumerState<VacanciesItemWidget> {
                       );
                     }).toList(),
                   ),
-                  error: (error, stack) =>
-                      Center(child: Text(error.toString())),
+                  error: (error, stack) => Container(
+                      margin: const EdgeInsets.only(top: 50),
+                      child: Center(child: Text(error.toString()))),
                   loading: () =>
                       const Center(child: CircularProgressIndicator()),
                 ),
