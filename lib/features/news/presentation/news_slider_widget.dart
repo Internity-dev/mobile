@@ -80,7 +80,7 @@ class _NewsSliderWidgetState extends ConsumerState<NewsSliderWidget> {
                         ),
                       ),
                       Text(
-                        DateFormat.yMMMMd()
+                        DateFormat.yMMMMd('id_ID')
                             .format(DateTime.parse(data[index].createdAt)),
                         style: const TextStyle(
                           fontSize: 10,

@@ -3,8 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:internity/features/login/provider/auth_provider.dart';
+import 'package:internity/pages/vacancie_pages.dart';
 import 'package:internity/pages/vacancies_status_pages.dart';
 import 'package:internity/shared/riverpod_and_hooks.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -36,8 +38,8 @@ Future<void> main() async {
   //   }),
   // );
 
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((_) {
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  initializeDateFormatting('id_ID', null).then((_) {
     runApp(const ProviderScope(child: MyApp()));
   });
 }
@@ -102,6 +104,7 @@ class _MyAppState extends ConsumerState<MyApp> {
         '/main': (context) => const MainPages(),
         '/vacancies-status': (context) => const VacanciesStatusPages(),
         '/my-intern': (context) => const MyInternPages(),
+        '/vacancie-detail': (context) => const VacanciePages(),
       },
     );
   }
