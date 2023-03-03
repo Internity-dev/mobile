@@ -30,33 +30,41 @@ class ProfileItemWidget extends HookConsumerWidget {
           child: profileData.when(
             data: (data) => Column(
               children: [
-                CachedNetworkImage(
-                  fit: BoxFit.cover,
-                  imageUrl: data.avatar ?? '',
-                  progressIndicatorBuilder: (context, url, downloadProgress) =>
-                      SizedBox(
-                    height: 10,
-                    width: 10,
-                    child: Center(
-                      child: CircularProgressIndicator(
-                          value: downloadProgress.progress),
-                    ),
-                  ),
-                  errorWidget: (context, url, error) => CircleAvatar(
-                    radius: 50,
-                    backgroundImage: AssetImage(data.gender == 'male'
-                        ? 'assets/images/man.png'
-                        : data.gender == 'female'
-                            ? 'assets/images/woman.png'
-                            : 'assets/images/question.png'),
-                  ),
-                  imageBuilder: (context, imageProvider) {
-                    return CircleAvatar(
-                      radius: 50,
-                      backgroundImage: imageProvider,
-                    );
-                  },
-                ),
+                data.avatarUrl != null
+                    ? CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        imageUrl: data.avatarUrl!,
+                        progressIndicatorBuilder:
+                            (context, url, downloadProgress) => SizedBox(
+                          height: 10,
+                          width: 10,
+                          child: Center(
+                            child: CircularProgressIndicator(
+                                value: downloadProgress.progress),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => CircleAvatar(
+                          radius: 50,
+                          backgroundImage: AssetImage(data.gender == 'male'
+                              ? 'assets/images/man.png'
+                              : data.gender == 'female'
+                                  ? 'assets/images/woman.png'
+                                  : 'assets/images/question.png'),
+                        ),
+                        imageBuilder: (context, imageProvider) {
+                          return CircleAvatar(
+                            radius: 50,
+                            backgroundImage: imageProvider,
+                          );
+                        },
+                      )
+                    : Image(
+                        image: AssetImage(data.gender == 'male'
+                            ? 'assets/images/man.png'
+                            : data.gender == 'female'
+                                ? 'assets/images/woman.png'
+                                : 'assets/images/question.png'),
+                      ),
 
                 const SizedBox(height: 10),
 

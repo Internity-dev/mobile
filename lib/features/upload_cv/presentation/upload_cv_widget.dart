@@ -38,7 +38,7 @@ class UploadCV extends HookConsumerWidget {
               ),
               TextSpan(
                 text:
-                    "Biar kami bisa kasih rekomendasi tempat magang sesuai dengan skill yang kamu punya,",
+                    "Agar memudahkan kamu mendapatkan tempat magang yang sesuai",
                 children: [
                   TextSpan(
                     text: " pastiin CV nya ATS ya :)",
