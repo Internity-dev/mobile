@@ -63,11 +63,12 @@ class _LoadingButtonState extends ConsumerState<LoadingButton> {
             ),
           )
         : ElevatedButton(
-            onPressed: widget.onPressed,
+            onPressed: widget.isLoading ? null : widget.onPressed,
             style: ElevatedButton.styleFrom(
-              backgroundColor: widget.backgroundColor != null
-                  ? Color(widget.backgroundColor!)
-                  : Colors.transparent,
+              backgroundColor:
+                  Color(widget.backgroundColor ?? primaryBackgroundColor),
+              disabledBackgroundColor:
+                  Color(widget.backgroundColor ?? primaryBackgroundColor),
               minimumSize: const Size(double.infinity, 50),
               padding: EdgeInsets.zero,
               shape: RoundedRectangleBorder(
