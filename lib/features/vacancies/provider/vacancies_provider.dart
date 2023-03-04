@@ -19,6 +19,12 @@ final recommendedVacanciesProvider =
   },
 );
 
+final vacancieProvider = FutureProvider.autoDispose.family<VacancieModel, int>(
+  (ref, id) async {
+    return ref.watch(vacanciesRepositoryProvider).getVacancie(id);
+  },
+);
+
 final internRegistStatusProvider =
     FutureProvider.autoDispose<List<InternRegistStatusModel>>(
   (ref) async {
@@ -32,8 +38,7 @@ final myInternProvider = FutureProvider.autoDispose<List<MyInternModel>>(
   },
 );
 
-final vacancieProvider = FutureProvider.autoDispose.family<VacancieModel, int>(
-  (ref, id) async {
-    return ref.watch(vacanciesRepositoryProvider).getVacancie(id);
-  },
-);
+final applyVacancieProvider =
+    FutureProvider.autoDispose.family<void, int>((ref, id) async {
+  return await ref.watch(vacanciesRepositoryProvider).applyVacancie(id);
+});
