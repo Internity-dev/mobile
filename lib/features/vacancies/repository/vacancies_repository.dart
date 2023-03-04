@@ -86,8 +86,13 @@ class VacanciesRepository {
       throw e.message;
     }
   }
+
+  // Apply Vacancie
+  Future<void> applyVacancie(int id) async {
+    await dio.post('/api/appliances', data: {'vacancy_id': id});
+  }
 }
 
-final vacanciesRepositoryProvider = Provider.autoDispose<VacanciesRepository>(
+final vacanciesRepositoryProvider = Provider<VacanciesRepository>(
   (ref) => VacanciesRepository(ref, ref.read(dioProvider)),
 );

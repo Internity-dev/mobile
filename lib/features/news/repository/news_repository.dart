@@ -33,7 +33,7 @@ class NewsRepository {
   }
 }
 
-final newsRepositoryProvider = Provider.autoDispose<NewsRepository>(
+final newsRepositoryProvider = Provider<NewsRepository>(
   (ref) => NewsRepository(
     ref: ref,
     dio: ref.read(dioProvider),

@@ -31,8 +31,7 @@ class ProfileRepository {
   }
 }
 
-final profileRepositoryProvider =
-    Provider.autoDispose<ProfileRepository>((ref) {
+final profileRepositoryProvider = Provider<ProfileRepository>((ref) {
   final dio = ref.watch(dioProvider);
   return ProfileRepository(ref: ref, dio: dio);
 });
