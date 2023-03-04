@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:intl/intl.dart';
 
 import '../../../shared/riverpod_and_hooks.dart';
@@ -20,13 +21,12 @@ class _NewsSliderWidgetState extends ConsumerState<NewsSliderWidget> {
     final newsData = ref.watch(newsProvider);
 
     return SizedBox(
-      height: 225,
+      height: 240,
       child: newsData.when(
         data: (data) => ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: data.length,
           itemBuilder: (context, index) => Container(
-            height: 400,
             width: 250,
             margin: const EdgeInsets.only(right: 20),
             child: Column(
@@ -56,38 +56,32 @@ class _NewsSliderWidgetState extends ConsumerState<NewsSliderWidget> {
                           width: 10,
                           child: Center(child: Icon(Icons.error)))),
                 ),
-                Container(
-                  margin: const EdgeInsets.only(top: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        data[index].title,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
+                Expanded(
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          data[index].title,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                      ),
-                      Text(
-                        data[index].content,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
+                        Text(
+                          DateFormat.yMMMMd('id_ID')
+                              .format(DateTime.parse(data[index].createdAt)),
+                          style: const TextStyle(
+                            fontSize: 10,
+                            color: Color(secondaryTextColor),
+                          ),
                         ),
-                      ),
-                      Text(
-                        DateFormat.yMMMMd('id_ID')
-                            .format(DateTime.parse(data[index].createdAt)),
-                        style: const TextStyle(
-                          fontSize: 10,
-                          color: Color(secondaryTextColor),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 )
               ],
