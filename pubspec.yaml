@@ -28,6 +28,7 @@ dependencies:
     intl: ^0.18.0
     random_avatar: ^0.0.8
     loading_animation_widget: ^1.2.0+4
+    flutter_widget_from_html_core: ^0.10.0
 
 dev_dependencies:
     flutter_test:

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:internity/theme/colors.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 
 import '../../../shared/riverpod_and_hooks.dart';
 import '../provider/vacancies_provider.dart';
@@ -155,14 +156,17 @@ class _VacancieItemWidgetState extends ConsumerState<VacancieItemWidget> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Text(data.description),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: HtmlWidget(data.description),
+                        )
                       ],
                     ),
                   ),
 
                   // Company Description  Section
                   Container(
-                    margin: const EdgeInsets.only(top: 20),
+                    margin: const EdgeInsets.only(top: 40),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
