@@ -22,6 +22,9 @@ class UserModel {
     required this.updatedAt,
     this.avatarUrl,
     this.resumeUrl,
+    required this.inInternship,
+    required this.inProcessed,
+    required this.inPending,
   });
   late final int id;
   late final String name;
@@ -45,6 +48,9 @@ class UserModel {
   late final String updatedAt;
   String? avatarUrl;
   String? resumeUrl;
+  late final bool inInternship;
+  late final bool inProcessed;
+  late final bool inPending;
 
   List<String>? get getSkills => skills?.split(',');
 
@@ -71,6 +77,9 @@ class UserModel {
     updatedAt = json['updated_at'];
     avatarUrl = json['avatar_url'];
     resumeUrl = json['resume_url'];
+    inInternship = json['in_internship'];
+    inProcessed = json['in_processed'];
+    inPending = json['in_pending'];
   }
 
   Map<String, dynamic> toJson() {

@@ -17,58 +17,66 @@ class VacanciePages extends HookConsumerWidget {
     final isApplyLoading = useState(false);
 
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          foregroundColor: const Color(primaryTextColor),
-          title: const Text(
-            'Kembali',
-            style: TextStyle(
-              color: Color(primaryTextColor),
-              fontSize: 12,
-            ),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        foregroundColor: const Color(primaryTextColor),
+        title: const Text(
+          'Kembali',
+          style: TextStyle(
+            color: Color(primaryTextColor),
+            fontSize: 12,
           ),
-          titleSpacing: 0,
         ),
-        body: userData.when(
-            data: (data) {
-              return const SingleChildScrollView(
-                padding: EdgeInsets.only(bottom: 20),
-                child: VacancieItemWidget(),
-              );
-            },
-            error: (error, stack) => Center(child: Text(error.toString())),
-            loading: () => const Center(child: CircularProgressIndicator())),
-        bottomNavigationBar: BottomAppBar(
-          color: Colors.transparent,
-          elevation: 0,
-          child: Container(
-              height: 80,
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-              decoration: BoxDecoration(
-                color: const Color(secondaryBackgroundColor),
-                boxShadow: [
-                  BoxShadow(
-                    color: const Color(0xFF000000).withOpacity(0.20),
-                    offset: const Offset(0, -1),
-                    blurRadius: 1,
-                  ),
-                ],
-              ),
-              child: LoadingButton(
-                onPressed: () {
-                  isApplyLoading.value = true;
-                  final applyVacancie =
-                      ref.read(applyVacancieProvider(vacancieSelected!).future);
-                  applyVacancie.then((value) => isApplyLoading.value = false);
-                  applyVacancie.onError(
-                      (error, stackTrace) => isApplyLoading.value = false);
-                },
-                text: 'Daftar',
-                isGradient: false,
-                backgroundColor: primaryColor,
-                isLoading: isApplyLoading.value,
-              )),
-        ));
+        titleSpacing: 0,
+      ),
+      body: userData.when(
+          data: (data) {
+            return const SingleChildScrollView(
+              padding: EdgeInsets.only(bottom: 20),
+              child: VacancieItemWidget(),
+            );
+          },
+          error: (error, stack) => Center(child: Text(error.toString())),
+          loading: () => const Center(child: CircularProgressIndicator())),
+      bottomNavigationBar: userData.when(
+          data: (data) => data.inInternship
+              ? null
+              : BottomAppBar(
+                  color: Colors.transparent,
+                  elevation: 0,
+                  child: Container(
+                      height: 80,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 15),
+                      decoration: BoxDecoration(
+                        color: const Color(secondaryBackgroundColor),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFF000000).withOpacity(0.20),
+                            offset: const Offset(0, -1),
+                            blurRadius: 1,
+                          ),
+                        ],
+                      ),
+                      child: LoadingButton(
+                        onPressed: () {
+                          isApplyLoading.value = true;
+                          final applyVacancie = ref.read(
+                              applyVacancieProvider(vacancieSelected!).future);
+                          applyVacancie
+                              .then((value) => isApplyLoading.value = false);
+                          applyVacancie.onError((error, stackTrace) =>
+                              isApplyLoading.value = false);
+                        },
+                        text: 'Daftar',
+                        isGradient: false,
+                        backgroundColor: primaryColor,
+                        isLoading: isApplyLoading.value,
+                      )),
+                ),
+          error: (error, stack) => Center(child: Text(error.toString())),
+          loading: () => const Center(child: CircularProgressIndicator())),
+    );
   }
 }
