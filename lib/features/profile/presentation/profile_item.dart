@@ -371,7 +371,8 @@ class ProfileItemWidget extends HookConsumerWidget {
                                             },
                                             text: 'Keluar',
                                             isGradient: false,
-                                            backgroundColor: 0xFFF03E61,
+                                            backgroundColor:
+                                                const Color(0xFFF03E61),
                                             isLoading: authData.maybeWhen(
                                               loading: () => true,
                                               orElse: () => false,

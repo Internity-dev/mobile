@@ -42,3 +42,8 @@ final applyVacancieProvider =
     FutureProvider.autoDispose.family<void, int>((ref, id) async {
   return await ref.watch(vacanciesRepositoryProvider).applyVacancie(id);
 });
+
+final cancelVacancieProvider =
+    FutureProvider.autoDispose.family<void, int>((ref, id) async {
+  return await ref.watch(vacanciesRepositoryProvider).cancelVacancie(id);
+});

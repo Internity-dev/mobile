@@ -40,40 +40,76 @@ class VacanciePages extends HookConsumerWidget {
           error: (error, stack) => Center(child: Text(error.toString())),
           loading: () => const Center(child: CircularProgressIndicator())),
       bottomNavigationBar: userData.when(
-          data: (data) => data.inInternship
+          data: (userData) => userData.inInternship
               ? null
-              : BottomAppBar(
-                  color: Colors.transparent,
-                  elevation: 0,
-                  child: Container(
-                      height: 80,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 15),
-                      decoration: BoxDecoration(
-                        color: const Color(secondaryBackgroundColor),
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color(0xFF000000).withOpacity(0.20),
-                            offset: const Offset(0, -1),
-                            blurRadius: 1,
-                          ),
-                        ],
-                      ),
-                      child: LoadingButton(
-                        onPressed: () {
-                          isApplyLoading.value = true;
-                          final applyVacancie = ref.read(
-                              applyVacancieProvider(vacancieSelected!).future);
-                          applyVacancie
-                              .then((value) => isApplyLoading.value = false);
-                          applyVacancie.onError((error, stackTrace) =>
-                              isApplyLoading.value = false);
-                        },
-                        text: 'Daftar',
-                        isGradient: false,
-                        backgroundColor: primaryColor,
-                        isLoading: isApplyLoading.value,
-                      )),
+              : Consumer(
+                  builder: (context, ref, child) {
+                    return ref.watch(vacancieProvider(vacancieSelected!)).when(
+                        data: (vacancieData) => BottomAppBar(
+                              color: Colors.transparent,
+                              elevation: 0,
+                              child: Container(
+                                  height: 80,
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 15),
+                                  decoration: BoxDecoration(
+                                    color:
+                                        const Color(secondaryBackgroundColor),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: const Color(0xFF000000)
+                                            .withOpacity(0.20),
+                                        offset: const Offset(0, -1),
+                                        blurRadius: 1,
+                                      ),
+                                    ],
+                                  ),
+                                  child: LoadingButton(
+                                    onPressed: () {
+                                      isApplyLoading.value = true;
+
+                                      final toggleVacancie =
+                                          vacancieData.inPending
+                                              ? ref.read(cancelVacancieProvider(
+                                                      vacancieSelected)
+                                                  .future)
+                                              : ref.read(applyVacancieProvider(
+                                                      vacancieSelected)
+                                                  .future);
+
+                                      toggleVacancie.then((value) {
+                                        ref.refresh(
+                                            vacancieProvider(vacancieSelected)
+                                                .future);
+                                        ref.refresh(profileProvider.future);
+                                        isApplyLoading.value = false;
+                                      });
+                                      toggleVacancie.onError(
+                                          (error, stackTrace) =>
+                                              isApplyLoading.value = false);
+                                    },
+                                    text: userData.inPending
+                                        ? vacancieData.inPending
+                                            ? 'Batal Daftar'
+                                            : vacancieData.inProcessed
+                                                ? 'Surat Dibuat'
+                                                : 'Sudah Mendaftar Ditempat Lain'
+                                        : 'Daftar',
+                                    isGradient: false,
+                                    backgroundColor: userData.inPending
+                                        ? vacancieData.inPending
+                                            ? const Color(0xFFF03E61)
+                                            : const Color(primaryColor)
+                                                .withOpacity(0.5)
+                                        : const Color(primaryColor),
+                                    isLoading: isApplyLoading.value,
+                                  )),
+                            ),
+                        error: (error, stack) =>
+                            Center(child: Text(error.toString())),
+                        loading: () =>
+                            const Center(child: CircularProgressIndicator()));
+                  },
                 ),
           error: (error, stack) => Center(child: Text(error.toString())),
           loading: () => const Center(child: CircularProgressIndicator())),

@@ -18,7 +18,7 @@ class LoadingButton extends StatefulHookConsumerWidget {
   final String text;
   final bool isGradient;
 
-  final int? backgroundColor;
+  final Color? backgroundColor;
   final Gradient? gradient;
 
   @override
@@ -66,9 +66,9 @@ class _LoadingButtonState extends ConsumerState<LoadingButton> {
             onPressed: widget.isLoading ? null : widget.onPressed,
             style: ElevatedButton.styleFrom(
               backgroundColor:
-                  Color(widget.backgroundColor ?? primaryBackgroundColor),
+                  widget.backgroundColor ?? const Color(primaryBackgroundColor),
               disabledBackgroundColor:
-                  Color(widget.backgroundColor ?? primaryBackgroundColor),
+                  widget.backgroundColor ?? const Color(primaryBackgroundColor),
               minimumSize: const Size(double.infinity, 50),
               padding: EdgeInsets.zero,
               shape: RoundedRectangleBorder(

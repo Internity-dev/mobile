@@ -68,7 +68,7 @@ class UploadCV extends HookConsumerWidget {
                 });
               },
               isGradient: false,
-              backgroundColor: primaryColor,
+              backgroundColor: const Color(primaryColor),
               isLoading: isUploadLoading.value,
             ),
           ),

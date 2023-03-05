@@ -12,6 +12,8 @@ class VacancieModel {
     required this.updatedAt,
     required this.applied,
     required this.company,
+    required this.inProcessed,
+    required this.inPending,
   });
   late final int id;
   late final int companyId;
@@ -24,6 +26,8 @@ class VacancieModel {
   late final String createdAt;
   late final String updatedAt;
   late final int applied;
+  late final bool inProcessed;
+  late final bool inPending;
   late final Company company;
 
   List<String>? get getSkills => skills.split(',');
@@ -40,6 +44,8 @@ class VacancieModel {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     applied = json['applied'];
+    inProcessed = json['in_processed'];
+    inPending = json['in_pending'];
     company = Company.fromJson(json['company']);
   }
 

@@ -91,6 +91,11 @@ class VacanciesRepository {
   Future<void> applyVacancie(int id) async {
     await dio.post('/api/appliances', data: {'vacancy_id': id});
   }
+
+  // Cancel Vacancie
+  Future<void> cancelVacancie(int id) async {
+    await dio.put('/api/appliances/$id/cancel');
+  }
 }
 
 final vacanciesRepositoryProvider = Provider<VacanciesRepository>(
