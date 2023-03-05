@@ -58,12 +58,13 @@ class ProfileItemWidget extends HookConsumerWidget {
                           );
                         },
                       )
-                    : Image(
-                        image: AssetImage(data.gender == 'male'
+                    : CircleAvatar(
+                        backgroundImage: AssetImage(data.gender == 'male'
                             ? 'assets/images/man.png'
                             : data.gender == 'female'
                                 ? 'assets/images/woman.png'
                                 : 'assets/images/question.png'),
+                        radius: 50,
                       ),
 
                 const SizedBox(height: 10),
