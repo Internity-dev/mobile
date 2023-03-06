@@ -23,10 +23,10 @@ class _BottomBarState extends ConsumerState<BottomBar> {
         icon: Icon(Icons.home_outlined),
         label: 'Beranda',
       ),
-      const BottomNavigationBarItem(
-        icon: Icon(Icons.history),
-        label: 'Aktivitas',
-      ),
+      // const BottomNavigationBarItem(
+      //   icon: Icon(Icons.history),
+      //   label: 'Aktivitas',
+      // ),
       const BottomNavigationBarItem(
         icon: Icon(Icons.work_outline),
         label: 'Magang',
@@ -42,10 +42,10 @@ class _BottomBarState extends ConsumerState<BottomBar> {
         icon: Icon(Icons.home_outlined),
         label: 'Beranda',
       ),
-      const BottomNavigationBarItem(
-        icon: Icon(Icons.history),
-        label: 'Aktivitas',
-      ),
+      // const BottomNavigationBarItem(
+      //   icon: Icon(Icons.history),
+      //   label: 'Aktivitas',
+      // ),
       const BottomNavigationBarItem(
         icon: Icon(Icons.sticky_note_2_outlined),
         label: 'Laporan',

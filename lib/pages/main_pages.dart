@@ -25,14 +25,14 @@ class _MainPagesState extends ConsumerState<MainPages> {
 
     List<Widget> beforeIntern = [
       const HomePages(),
-      const ActivityPages(),
+      // const ActivityPages(),
       const VacanciesPages(),
       const ProfilePage()
     ];
 
     List<Widget> onIntern = [
       const HomePages(),
-      const ActivityPages(),
+      // const ActivityPages(),
       const ReportsPages(),
       const VacanciesPages(),
       const ProfilePage()

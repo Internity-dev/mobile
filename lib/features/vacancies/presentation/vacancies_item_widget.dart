@@ -25,38 +25,38 @@ class _VacanciesItemWidgetState extends ConsumerState<VacanciesItemWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Search Bar
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
-              boxShadow: [
-                BoxShadow(
-                  offset: const Offset(0, 1),
-                  blurRadius: 5,
-                  color: Colors.black.withOpacity(0.25),
-                ),
-              ],
-            ),
-            child: TextField(
-              cursorColor: const Color(primaryTextColor),
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.zero,
-                prefixIcon: const Icon(
-                  Icons.search,
-                  color: Color(primaryTextColor),
-                ),
-                hintText: "cari tempat magang",
-                hintStyle: const TextStyle(
-                  fontSize: 14,
-                  color: Color(primaryTextColor),
-                ),
-                border: OutlineInputBorder(
-                  borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-          ),
+          // Container(
+          //   decoration: BoxDecoration(
+          //     color: Colors.white,
+          //     borderRadius: BorderRadius.circular(10),
+          //     boxShadow: [
+          //       BoxShadow(
+          //         offset: const Offset(0, 1),
+          //         blurRadius: 5,
+          //         color: Colors.black.withOpacity(0.25),
+          //       ),
+          //     ],
+          //   ),
+          //   child: TextField(
+          //     cursorColor: const Color(primaryTextColor),
+          //     decoration: InputDecoration(
+          //       contentPadding: EdgeInsets.zero,
+          //       prefixIcon: const Icon(
+          //         Icons.search,
+          //         color: Color(primaryTextColor),
+          //       ),
+          //       hintText: "cari tempat magang",
+          //       hintStyle: const TextStyle(
+          //         fontSize: 14,
+          //         color: Color(primaryTextColor),
+          //       ),
+          //       border: OutlineInputBorder(
+          //         borderSide: BorderSide.none,
+          //         borderRadius: BorderRadius.circular(10),
+          //       ),
+          //     ),
+          //   ),
+          // ),
 
           // Navigation Item
           Container(

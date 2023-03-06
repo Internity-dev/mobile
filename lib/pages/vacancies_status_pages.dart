@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../features/vacancies/presentation/vacancies_item_status_widget.dart';
+import '../features/vacancies/provider/vacancies_provider.dart';
 import '../shared/riverpod_and_hooks.dart';
 import '../theme/colors.dart';
 
@@ -23,8 +24,15 @@ class VacanciesStatusPages extends HookConsumerWidget {
           ),
           titleSpacing: 0,
         ),
-        body: const SingleChildScrollView(
-          child: VacanciesItemStatusWidget(),
+        body: RefreshIndicator(
+          onRefresh: () async {
+            await ref.refresh(internRegistStatusProvider.future);
+          },
+          triggerMode: RefreshIndicatorTriggerMode.onEdge,
+          child: const SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            child: VacanciesItemStatusWidget(),
+          ),
         ),
       ),
     );

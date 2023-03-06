@@ -69,13 +69,13 @@ class MyInternWidget extends HookConsumerWidget {
                                           color: Color(secondaryTextColor)),
                                     ),
                                     Text(
-                                      'Tanggal Mulai ${item.internDate.startDate}',
+                                      'Tanggal Mulai ${item.internDate.startDate ?? 'Belum Diisi'}',
                                       style: const TextStyle(
                                           fontSize: 12,
                                           color: Color(primaryColor)),
                                     ),
                                     Text(
-                                      'Tanggal Selesai ${item.internDate.endDate}',
+                                      'Tanggal Selesai ${item.internDate.endDate ?? 'Belum Diisi'}',
                                       style: const TextStyle(
                                           fontSize: 12,
                                           color: Color(primaryColor)),

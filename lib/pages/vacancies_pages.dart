@@ -3,6 +3,7 @@ import 'package:internity/features/upload_cv/presentation/upload_cv_widget.dart'
 
 import '../features/profile/provider/profile_provider.dart';
 import '../features/vacancies/presentation/vacancies_item_widget.dart';
+import '../features/vacancies/provider/vacancies_provider.dart';
 import '../shared/riverpod_and_hooks.dart';
 
 class VacanciesPages extends HookConsumerWidget {
@@ -24,8 +25,14 @@ class VacanciesPages extends HookConsumerWidget {
                   ],
                 );
               } else {
-                return const SingleChildScrollView(
-                  child: VacanciesItemWidget(),
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    await ref.refresh(vacanciesProvider.future);
+                    await ref.refresh(recommendedVacanciesProvider.future);
+                  },
+                  child: const SingleChildScrollView(
+                    child: VacanciesItemWidget(),
+                  ),
                 );
               }
             },

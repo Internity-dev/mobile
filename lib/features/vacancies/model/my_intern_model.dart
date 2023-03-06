@@ -190,8 +190,8 @@ class InternDate {
     required this.id,
     required this.companyId,
     required this.userId,
-    required this.startDate,
-    required this.endDate,
+    this.startDate,
+    this.endDate,
     required this.extend,
     required this.createdAt,
     required this.updatedAt,
@@ -199,8 +199,8 @@ class InternDate {
   late final int id;
   late final int companyId;
   late final int userId;
-  late final String startDate;
-  late final String endDate;
+  late final String? startDate;
+  late final String? endDate;
   late final int extend;
   late final String createdAt;
   late final String updatedAt;

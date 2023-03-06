@@ -21,9 +21,14 @@ class VacanciePages extends HookConsumerWidget {
       appBar: const CustomBackButton(),
       body: userData.when(
           data: (data) {
-            return const SingleChildScrollView(
-              padding: EdgeInsets.only(bottom: 20),
-              child: VacancieItemWidget(),
+            return RefreshIndicator(
+              onRefresh: () async {
+                await ref.refresh(vacancieProvider(vacancieSelected!).future);
+              },
+              child: const SingleChildScrollView(
+                padding: EdgeInsets.only(bottom: 20),
+                child: VacancieItemWidget(),
+              ),
             );
           },
           error: (error, stack) => Center(child: Text(error.toString())),
