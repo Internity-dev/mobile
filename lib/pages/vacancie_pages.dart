@@ -55,8 +55,9 @@ class VacanciePages extends HookConsumerWidget {
                                   ),
                                   child: LoadingButton(
                                     onPressed: () {
-                                      if (!userData.inPending ||
-                                          vacancieData.inPending) {
+                                      if ((!userData.inPending ||
+                                              vacancieData.inPending) &&
+                                          !userData.inProcessed) {
                                         isApplyLoading.value = true;
 
                                         final toggleVacancie = vacancieData
@@ -86,7 +87,8 @@ class VacanciePages extends HookConsumerWidget {
                                                 isApplyLoading.value = false);
                                       }
                                     },
-                                    text: userData.inPending
+                                    text: userData.inPending ||
+                                            userData.inProcessed
                                         ? vacancieData.inPending
                                             ? 'Batal Daftar'
                                             : vacancieData.inProcessed
@@ -94,7 +96,8 @@ class VacanciePages extends HookConsumerWidget {
                                                 : 'Sudah Mendaftar Ditempat Lain'
                                         : 'Daftar',
                                     isGradient: false,
-                                    backgroundColor: userData.inPending
+                                    backgroundColor: userData.inPending ||
+                                            userData.inProcessed
                                         ? vacancieData.inPending
                                             ? const Color(0xFFF03E61)
                                             : const Color(primaryColor)
