@@ -5,6 +5,7 @@ import 'package:internity/shared/widget/loading_button.dart';
 import '../features/profile/provider/profile_provider.dart';
 import '../features/vacancies/presentation/vacancie_item_widget.dart';
 import '../shared/riverpod_and_hooks.dart';
+import '../shared/widget/custom_app_bar.dart';
 import '../theme/colors.dart';
 
 class VacanciePages extends HookConsumerWidget {
@@ -17,19 +18,7 @@ class VacanciePages extends HookConsumerWidget {
     final isApplyLoading = useState(false);
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        foregroundColor: const Color(primaryTextColor),
-        title: const Text(
-          'Kembali',
-          style: TextStyle(
-            color: Color(primaryTextColor),
-            fontSize: 12,
-          ),
-        ),
-        titleSpacing: 0,
-      ),
+      appBar: const CustomBackButton(),
       body: userData.when(
           data: (data) {
             return const SingleChildScrollView(
@@ -66,27 +55,36 @@ class VacanciePages extends HookConsumerWidget {
                                   ),
                                   child: LoadingButton(
                                     onPressed: () {
-                                      isApplyLoading.value = true;
+                                      if (!userData.inPending ||
+                                          vacancieData.inPending) {
+                                        isApplyLoading.value = true;
 
-                                      final toggleVacancie =
-                                          vacancieData.inPending
-                                              ? ref.read(cancelVacancieProvider(
-                                                      vacancieSelected)
-                                                  .future)
-                                              : ref.read(applyVacancieProvider(
-                                                      vacancieSelected)
-                                                  .future);
-
-                                      toggleVacancie.then((value) {
-                                        ref.refresh(
-                                            vacancieProvider(vacancieSelected)
+                                        final toggleVacancie = vacancieData
+                                                .inPending
+                                            ? vacancieData.pendingAppliances !=
+                                                    null
+                                                ? ref.read(cancelVacancieProvider(
+                                                        vacancieData
+                                                            .pendingAppliances!
+                                                            .id)
+                                                    .future)
+                                                : null
+                                            : ref.read(applyVacancieProvider(
+                                                    vacancieSelected)
                                                 .future);
-                                        ref.refresh(profileProvider.future);
-                                        isApplyLoading.value = false;
-                                      });
-                                      toggleVacancie.onError(
-                                          (error, stackTrace) =>
-                                              isApplyLoading.value = false);
+
+                                        toggleVacancie?.then((value) async {
+                                          await ref
+                                              .refresh(profileProvider.future);
+                                          await ref.refresh(
+                                              vacancieProvider(vacancieSelected)
+                                                  .future);
+                                          isApplyLoading.value = false;
+                                        });
+                                        toggleVacancie?.onError(
+                                            (error, stackTrace) =>
+                                                isApplyLoading.value = false);
+                                      }
                                     },
                                     text: userData.inPending
                                         ? vacancieData.inPending

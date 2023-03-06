@@ -11,6 +11,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+import 'pages/change_password_pages.dart';
 import 'pages/login_pages.dart';
 import 'pages/my_intern_pages.dart';
 import 'pages/onboarding_pages.dart';
@@ -71,11 +72,11 @@ class _MyAppState extends ConsumerState<MyApp> {
                 } else if (data == UserStatus.loggedIn) {
                   return const MainPages();
                 } else {
-                  return const LoginPage();
+                  return LoginPage();
                 }
               },
               error: (error, stackTrace) {
-                return const LoginPage();
+                return LoginPage();
               },
               loading: () {
                 return Scaffold(
@@ -98,13 +99,14 @@ class _MyAppState extends ConsumerState<MyApp> {
                 );
               })),
       routes: {
-        '/login': (context) => const LoginPage(),
+        '/login': (context) => LoginPage(),
         '/onboard': (context) => const OnboardingPage(),
         '/register': (context) => const RegisterPage(),
         '/main': (context) => const MainPages(),
         '/vacancies-status': (context) => const VacanciesStatusPages(),
         '/my-intern': (context) => const MyInternPages(),
         '/vacancie-detail': (context) => const VacanciePages(),
+        '/change-password': (context) => ChangePasswordPages(),
       },
     );
   }

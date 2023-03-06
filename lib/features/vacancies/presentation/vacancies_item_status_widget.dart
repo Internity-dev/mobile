@@ -118,7 +118,7 @@ class ChipStatus extends HookConsumerWidget {
   int statusColor() {
     if (label == 'accepted') {
       return 0xFF0FB782;
-    } else if (label == 'rejected') {
+    } else if (label == 'rejected' || label == 'canceled') {
       return 0xFFF03E61;
     } else {
       return 0xFFE9B207;
@@ -128,7 +128,7 @@ class ChipStatus extends HookConsumerWidget {
   int statusBackgroundColor() {
     if (label == 'accepted') {
       return 0xFFA3F0D0;
-    } else if (label == 'rejected') {
+    } else if (label == 'rejected' || label == 'canceled') {
       return 0xFFF9CAD1;
     } else {
       return 0xFFF5ED8D;
@@ -143,7 +143,9 @@ class ChipStatus extends HookConsumerWidget {
             ? 'Diterima'
             : label == 'rejected'
                 ? 'Ditolak'
-                : 'Diproses',
+                : label == 'canceled'
+                    ? 'Dibatalkan'
+                    : 'Diproses',
         style: TextStyle(fontSize: 10, color: Color(statusColor())),
       ),
       backgroundColor: Color(statusBackgroundColor()),

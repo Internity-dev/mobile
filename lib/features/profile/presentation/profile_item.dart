@@ -298,30 +298,35 @@ class ProfileItemWidget extends HookConsumerWidget {
               Column(
                 children: [
                   // Change Password Navigation
-                  Row(
-                    children: const [
-                      Icon(
-                        Icons.lock_outline,
-                        color: Color(primaryTextColor),
-                        size: 25,
-                      ),
-                      SizedBox(width: 8),
-                      Expanded(
-                        child: Text(
-                          'Ganti Password',
-                          style: TextStyle(
-                            color: Color(primaryTextColor),
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, '/change-password');
+                    },
+                    child: Row(
+                      children: const [
+                        Icon(
+                          Icons.lock_outline,
+                          color: Color(primaryTextColor),
+                          size: 25,
+                        ),
+                        SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            'Ganti Password',
+                            style: TextStyle(
+                              color: Color(primaryTextColor),
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
-                      ),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        color: Color(primaryTextColor),
-                        size: 25,
-                      ),
-                    ],
+                        Icon(
+                          Icons.arrow_forward_ios,
+                          color: Color(primaryTextColor),
+                          size: 25,
+                        ),
+                      ],
+                    ),
                   ),
 
                   const SizedBox(height: 25),

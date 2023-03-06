@@ -3,15 +3,25 @@ import 'package:internity/shared/riverpod_and_hooks.dart';
 
 import '../features/login/presentation/login_item_widget.dart';
 
-class LoginPage extends HookConsumerWidget {
-  const LoginPage({super.key});
+class LoginPage extends StatefulWidget {
+  LoginPage({super.key});
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (() => FocusScope.of(context).unfocus()),
-      child: const Scaffold(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: Scaffold(
         body: SingleChildScrollView(
-          child: LoginItemWidget(),
+          child: LoginItemWidget(
+            formKey: widget.formKey,
+          ),
         ),
       ),
     );

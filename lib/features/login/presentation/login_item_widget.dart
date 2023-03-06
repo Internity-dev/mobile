@@ -7,7 +7,9 @@ import '../../../theme/colors.dart';
 import '../provider/auth_provider.dart';
 
 class LoginItemWidget extends StatefulHookConsumerWidget {
-  const LoginItemWidget({super.key});
+  const LoginItemWidget({super.key, required this.formKey});
+
+  final GlobalKey<FormState> formKey;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -17,7 +19,6 @@ class LoginItemWidget extends StatefulHookConsumerWidget {
 class _LoginItemWidgetState extends ConsumerState<LoginItemWidget> {
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
 
@@ -58,7 +59,7 @@ class _LoginItemWidgetState extends ConsumerState<LoginItemWidget> {
                 Container(
                   margin: const EdgeInsets.only(top: 10),
                   child: Form(
-                    key: formKey,
+                    key: widget.formKey,
                     child: Column(
                       children: [
                         // Email Input

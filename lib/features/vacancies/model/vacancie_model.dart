@@ -14,6 +14,7 @@ class VacancieModel {
     required this.company,
     required this.inProcessed,
     required this.inPending,
+    this.pendingAppliances,
   });
   late final int id;
   late final int companyId;
@@ -29,6 +30,7 @@ class VacancieModel {
   late final bool inProcessed;
   late final bool inPending;
   late final Company company;
+  late final PendingAppliances? pendingAppliances;
 
   List<String>? get getSkills => skills.split(',');
 
@@ -47,6 +49,9 @@ class VacancieModel {
     inProcessed = json['in_processed'];
     inPending = json['in_pending'];
     company = Company.fromJson(json['company']);
+    pendingAppliances = json['pending_appliances'] != null
+        ? PendingAppliances.fromJson(json['pending_appliances'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -138,6 +143,47 @@ class Company {
     data['logo'] = logo;
     data['contact_person'] = contactPerson;
     data['status'] = status;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    return data;
+  }
+}
+
+class PendingAppliances {
+  PendingAppliances({
+    required this.id,
+    required this.userId,
+    required this.vacancyId,
+    required this.status,
+    this.message,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+  late final int id;
+  late final int userId;
+  late final int vacancyId;
+  late final String status;
+  late final String? message;
+  late final String createdAt;
+  late final String updatedAt;
+
+  PendingAppliances.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    userId = json['user_id'];
+    vacancyId = json['vacancy_id'];
+    status = json['status'];
+    message = json['message'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final data = <String, dynamic>{};
+    data['id'] = id;
+    data['user_id'] = userId;
+    data['vacancy_id'] = vacancyId;
+    data['status'] = status;
+    data['message'] = message;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
     return data;
