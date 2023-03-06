@@ -429,7 +429,9 @@ class _HomePagesState extends ConsumerState<HomePages> {
                             ),
                           ),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/news');
+                            },
                             child: const Text(
                               'Lihat Semua',
                               style: TextStyle(

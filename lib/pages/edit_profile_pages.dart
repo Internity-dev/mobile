@@ -375,7 +375,7 @@ class _EditProfilePagesState extends ConsumerState<EditProfilePages> {
                                 padding: const EdgeInsets.only(top: 20),
                                 child: OutlineLabelTextField(
                                   controller: aboutController,
-                                  inputType: TextInputType.multiline,
+                                  inputType: TextInputType.text,
                                   outlineLabel: 'Tentang Saya',
                                 ),
                               ),
