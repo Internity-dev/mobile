@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:internity/features/register/model/post_register_model.dart';
+import 'package:internity/features/register/provider/register_provider.dart';
 import 'package:internity/shared/riverpod_and_hooks.dart';
 
+import '../../../shared/widget/loading_button.dart';
 import '../../../shared/widget/underline_text_field.dart';
 import '../../../theme/colors.dart';
+import '../../login/provider/auth_provider.dart';
+import '../model/error_validation_model.dart';
 
 class RegisterItemWidget extends StatefulHookConsumerWidget {
-  const RegisterItemWidget({super.key});
+  RegisterItemWidget({super.key});
+
+  final formKey = GlobalKey<FormState>();
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -15,11 +22,16 @@ class RegisterItemWidget extends StatefulHookConsumerWidget {
 class _RegisterItemWidgetState extends ConsumerState<RegisterItemWidget> {
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
     final nameController = useTextEditingController();
     final emailController = useTextEditingController();
     final passwordController = useTextEditingController();
     final confirmPasswordController = useTextEditingController();
+    final courseCodeController = useTextEditingController();
+
+    final isLoading = useState(false);
+    final ValueNotifier<ErrorValidationModel?> errorValidation = useState(null);
+
+    print(errorValidation.value != null);
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
@@ -56,7 +68,8 @@ class _RegisterItemWidgetState extends ConsumerState<RegisterItemWidget> {
                 Container(
                   margin: const EdgeInsets.only(top: 10),
                   child: Form(
-                    key: formKey,
+                    key: widget.formKey,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     child: Column(
                       children: [
                         // Name Input
@@ -66,6 +79,9 @@ class _RegisterItemWidgetState extends ConsumerState<RegisterItemWidget> {
                             controller: nameController,
                             hintText: "Masukan Nama",
                             inputType: TextInputType.name,
+                            errorText: errorValidation.value?.errors.name?[0],
+                            validateError:
+                                errorValidation.value != null ? true : false,
                           ),
                         ),
 
@@ -76,6 +92,9 @@ class _RegisterItemWidgetState extends ConsumerState<RegisterItemWidget> {
                             controller: emailController,
                             hintText: "Masukan Email",
                             inputType: TextInputType.emailAddress,
+                            errorText: errorValidation.value?.errors.email?[0],
+                            validateError:
+                                errorValidation.value != null ? true : false,
                           ),
                         ),
 
@@ -86,6 +105,9 @@ class _RegisterItemWidgetState extends ConsumerState<RegisterItemWidget> {
                             controller: passwordController,
                             hintText: "Masukan Password",
                             inputType: TextInputType.visiblePassword,
+                            errorText:
+                                errorValidation.value?.errors.password?[0],
+                            validateError: errorValidation.value != null,
                           ),
                         ),
 
@@ -96,6 +118,20 @@ class _RegisterItemWidgetState extends ConsumerState<RegisterItemWidget> {
                             controller: confirmPasswordController,
                             hintText: "Masukan Ulang Password",
                             inputType: TextInputType.visiblePassword,
+                            validateError: errorValidation.value != null,
+                          ),
+                        ),
+
+                        // Course Code
+                        Container(
+                          margin: const EdgeInsets.only(top: 10),
+                          child: UnderlineTextField(
+                            controller: courseCodeController,
+                            hintText: "Kode Kelas",
+                            inputType: TextInputType.text,
+                            errorText:
+                                errorValidation.value?.errors.courseCode?[0],
+                            validateError: errorValidation.value != null,
                           ),
                         ),
                       ],
@@ -105,10 +141,40 @@ class _RegisterItemWidgetState extends ConsumerState<RegisterItemWidget> {
 
                 // Register Button
                 Container(
-                  margin: const EdgeInsets.only(top: 30),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
+                  margin: const EdgeInsets.only(top: 20),
+                  child: LoadingButton(
+                    text: 'Daftar',
+                    onPressed: () {
+                      PostRegisterModel data = PostRegisterModel(
+                        name: nameController.text,
+                        email: emailController.text,
+                        password: passwordController.text,
+                        passwordConfirmation: confirmPasswordController.text,
+                        courseCode: courseCodeController.text,
+                      );
+
+                      isLoading.value = true;
+
+                      final register = ref.read(registerProvider(data).future);
+
+                      register.then((value) async {
+                        isLoading.value = false;
+
+                        await ref
+                            .refresh(isUserLoginProvider.future)
+                            .then((value) => Navigator.pop(context));
+                      });
+
+                      register.onError((error, stackTrace) {
+                        if (error is ErrorValidationModel) {
+                          errorValidation.value = error;
+                        }
+
+                        isLoading.value = false;
+                      });
+                    },
+                    isGradient: true,
+                    isLoading: isLoading.value,
                     gradient: const LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
@@ -116,26 +182,6 @@ class _RegisterItemWidgetState extends ConsumerState<RegisterItemWidget> {
                         Color(0xFF1090FF),
                         Color(0xFF01C1FF),
                       ],
-                    ),
-                  ),
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.transparent,
-                      disabledForegroundColor: Colors.transparent,
-                      disabledBackgroundColor: Colors.transparent,
-                      shadowColor: Colors.transparent,
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 10,
-                      ),
-                    ),
-                    child: const Text(
-                      'Daftar',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Color(secondaryBackgroundColor),
-                        fontWeight: FontWeight.bold,
-                      ),
                     ),
                   ),
                 ),

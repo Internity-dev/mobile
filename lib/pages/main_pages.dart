@@ -4,6 +4,7 @@ import 'package:internity/pages/home_pages.dart';
 import '../shared/provider/bottom_bar_provider.dart';
 import '../shared/riverpod_and_hooks.dart';
 import '../shared/widget/bottom_bar.dart';
+import 'activity_pages.dart';
 import 'profile_pages.dart';
 import 'vacancies_pages.dart';
 
@@ -21,12 +22,8 @@ class _MainPagesState extends ConsumerState<MainPages> {
 
     List<Widget> beforeUploadCV = [
       const HomePages(),
-      const Center(
-        child: Text('Search'),
-      ),
-      const Center(
-        child: VacanciesPages(),
-      ),
+      const ActivityPages(),
+      const VacanciesPages(),
       const ProfilePage()
     ];
 

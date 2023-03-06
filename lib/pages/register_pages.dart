@@ -8,8 +8,8 @@ class RegisterPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return GestureDetector(
-      onTap: (() => FocusScope.of(context).unfocus()),
-      child: const Scaffold(
+      onTap: (() => FocusManager.instance.primaryFocus?.unfocus()),
+      child: Scaffold(
         body: SingleChildScrollView(
           child: RegisterItemWidget(),
         ),

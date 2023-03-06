@@ -29,14 +29,14 @@ class _UnderlineTextFieldState extends ConsumerState<UnderlineTextField> {
     final isObscure =
         useState(widget.inputType == TextInputType.visiblePassword);
 
-    final isValidateError = useState(widget.validateError ?? false);
+    // final isValidateError = useState(widget.validateError);
 
     return TextFormField(
       style: const TextStyle(
         color: Color(primaryTextColor),
         fontSize: 14,
       ),
-      onTap: () => isValidateError.value = false,
+      // onTap: () => isValidateError.value = false,
       cursorColor: const Color(primaryTextColor),
       controller: widget.controller,
       keyboardType: widget.inputType,
@@ -48,7 +48,9 @@ class _UnderlineTextFieldState extends ConsumerState<UnderlineTextField> {
             color: Color(primaryTextColor),
           ),
         ),
-        errorText: isValidateError.value ? widget.errorText : null,
+        errorText: widget.validateError != null && widget.validateError!
+            ? widget.errorText
+            : null,
         suffixIcon: widget.inputType == TextInputType.visiblePassword
             ? GestureDetector(
                 onTap: () => isObscure.value = !isObscure.value,
