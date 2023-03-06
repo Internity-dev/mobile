@@ -10,13 +10,15 @@ class OutlineLabelTextField extends StatefulHookConsumerWidget {
       required this.outlineLabel,
       this.helperMaxLines,
       required this.controller,
-      this.errorText});
+      this.errorText,
+      required this.inputType});
 
   final String? helperText;
   final int? helperMaxLines;
   final String outlineLabel;
   final TextEditingController controller;
   final String? errorText;
+  final TextInputType inputType;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -26,6 +28,9 @@ class OutlineLabelTextField extends StatefulHookConsumerWidget {
 class _OutlineLabelTextFieldState extends ConsumerState<OutlineLabelTextField> {
   @override
   Widget build(BuildContext context) {
+    final isObscure =
+        useState(widget.inputType == TextInputType.visiblePassword);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -46,10 +51,21 @@ class _OutlineLabelTextFieldState extends ConsumerState<OutlineLabelTextField> {
               fontSize: 14,
             ),
             cursorColor: const Color(primaryTextColor),
+            obscureText: isObscure.value,
             decoration: InputDecoration(
               helperText: widget.helperText,
               helperMaxLines: widget.helperMaxLines,
               errorText: widget.errorText,
+              suffixIcon: widget.inputType == TextInputType.visiblePassword
+                  ? GestureDetector(
+                      onTap: () => isObscure.value = !isObscure.value,
+                      child: Icon(
+                        isObscure.value
+                            ? Icons.visibility
+                            : Icons.visibility_off,
+                      ),
+                    )
+                  : null,
               enabledBorder: OutlineInputBorder(
                 borderSide:
                     BorderSide(color: const Color(0xFF22272E).withOpacity(0.5)),

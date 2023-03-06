@@ -36,6 +36,7 @@ class _FormWidgetState extends ConsumerState<FormWidget> {
               padding: const EdgeInsets.only(top: 20),
               child: OutlineLabelTextField(
                 controller: widget.oldPasswordController,
+                inputType: TextInputType.visiblePassword,
                 outlineLabel: 'Password Lama',
                 helperText: 'Password lama yang digunakan saat ini',
                 helperMaxLines: 2,
@@ -46,6 +47,7 @@ class _FormWidgetState extends ConsumerState<FormWidget> {
               padding: const EdgeInsets.only(top: 20),
               child: OutlineLabelTextField(
                 controller: widget.newPasswordController,
+                inputType: TextInputType.visiblePassword,
                 outlineLabel: 'Password Baru',
                 helperText: 'Panjang password minimal 8 karakter\n'
                     'Mengandung angka\n',
@@ -57,6 +59,7 @@ class _FormWidgetState extends ConsumerState<FormWidget> {
               padding: const EdgeInsets.only(top: 20),
               child: OutlineLabelTextField(
                 controller: widget.confirmPasswordController,
+                inputType: TextInputType.visiblePassword,
                 outlineLabel: 'Konfirmasi Password',
                 helperText: 'Ketikan ulang password',
                 helperMaxLines: 2,

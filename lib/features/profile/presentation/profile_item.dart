@@ -113,25 +113,25 @@ class ProfileItemWidget extends HookConsumerWidget {
                         ),
                       ],
                     ),
-                    Row(
-                      children: const [
-                        Icon(
-                          Icons.edit_document,
-                          color: Color(secondaryBackgroundColor),
-                          size: 20,
-                        ),
-                        Text(
-                          textAlign: TextAlign.center,
-                          'Edit CV',
-                          style: TextStyle(
-                            color: Color(secondaryBackgroundColor),
-                            fontSize: 14,
-                            decoration: TextDecoration.underline,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
-                    ),
+                    // Row(
+                    //   children: const [
+                    //     Icon(
+                    //       Icons.edit_document,
+                    //       color: Color(secondaryBackgroundColor),
+                    //       size: 20,
+                    //     ),
+                    //     Text(
+                    //       textAlign: TextAlign.center,
+                    //       'Edit CV',
+                    //       style: TextStyle(
+                    //         color: Color(secondaryBackgroundColor),
+                    //         fontSize: 14,
+                    //         decoration: TextDecoration.underline,
+                    //         fontWeight: FontWeight.bold,
+                    //       ),
+                    //     ),
+                    //   ],
+                    // ),
                   ],
                 ),
               ],
