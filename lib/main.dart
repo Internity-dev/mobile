@@ -13,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import 'pages/change_password_pages.dart';
+import 'pages/create_journal.dart';
 import 'pages/login_pages.dart';
 import 'pages/my_intern_pages.dart';
 import 'pages/onboarding_pages.dart';
@@ -111,6 +112,7 @@ class _MyAppState extends ConsumerState<MyApp> {
         '/change-password': (context) => ChangePasswordPages(),
         '/presences': (context) => const PresencesPages(),
         '/edit-profile': (context) => EditProfilePages(),
+        'create-journal': (context) => CreateJournal(),
       },
     );
   }
