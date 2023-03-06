@@ -15,6 +15,7 @@ import 'pages/change_password_pages.dart';
 import 'pages/login_pages.dart';
 import 'pages/my_intern_pages.dart';
 import 'pages/onboarding_pages.dart';
+import 'pages/presences_pages.dart';
 import 'pages/register_pages.dart';
 import 'theme/colors.dart';
 import 'pages/main_pages.dart';
@@ -107,6 +108,7 @@ class _MyAppState extends ConsumerState<MyApp> {
         '/my-intern': (context) => const MyInternPages(),
         '/vacancie-detail': (context) => const VacanciePages(),
         '/change-password': (context) => ChangePasswordPages(),
+        '/presences': (context) => const PresencesPages(),
       },
     );
   }

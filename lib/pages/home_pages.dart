@@ -26,6 +26,7 @@ class _HomePagesState extends ConsumerState<HomePages> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         body: SingleChildScrollView(
+          padding: const EdgeInsets.only(bottom: 50),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -125,7 +126,7 @@ class _HomePagesState extends ConsumerState<HomePages> {
                 ),
               ),
 
-              // Precense
+              // Presences
               userData.when(
                   data: (data) {
                     if (data.inInternship) {
@@ -155,7 +156,10 @@ class _HomePagesState extends ConsumerState<HomePages> {
                                 alignment: WrapAlignment.spaceEvenly,
                                 children: [
                                   InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.pushNamed(context, '/presences',
+                                          arguments: 'in');
+                                    },
                                     child: Container(
                                       width: 100,
                                       padding: const EdgeInsets.symmetric(
@@ -188,7 +192,10 @@ class _HomePagesState extends ConsumerState<HomePages> {
                                     ),
                                   ),
                                   InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.pushNamed(context, '/presences',
+                                          arguments: 'out');
+                                    },
                                     child: Container(
                                       width: 100,
                                       padding: const EdgeInsets.symmetric(
@@ -221,6 +228,10 @@ class _HomePagesState extends ConsumerState<HomePages> {
                                     ),
                                   ),
                                   InkWell(
+                                    onTap: () {
+                                      Navigator.pushNamed(context, '/presences',
+                                          arguments: 'excuse');
+                                    },
                                     child: Container(
                                       width: 100,
                                       padding: const EdgeInsets.symmetric(
