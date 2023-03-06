@@ -83,7 +83,9 @@ class _HomePagesState extends ConsumerState<HomePages> {
                               color: const Color(0xFF706E6E).withOpacity(0.42),
                             ),
                             child: InkWell(
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.pushNamed(context, '/notification');
+                              },
                               child: const Icon(
                                 Icons.notifications,
                                 color: Color(secondaryBackgroundColor),
