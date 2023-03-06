@@ -30,6 +30,7 @@ dependencies:
     loading_animation_widget: ^1.2.0+4
     flutter_widget_from_html_core: ^0.10.0
     firebase_core: ^2.7.0
+    image_picker: ^0.8.6+4
 
 dev_dependencies:
     flutter_test:

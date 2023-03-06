@@ -11,7 +11,9 @@ class OutlineLabelTextField extends StatefulHookConsumerWidget {
       this.helperMaxLines,
       required this.controller,
       this.errorText,
-      required this.inputType});
+      required this.inputType,
+      this.maxLines,
+      this.expands});
 
   final String? helperText;
   final int? helperMaxLines;
@@ -19,6 +21,8 @@ class OutlineLabelTextField extends StatefulHookConsumerWidget {
   final TextEditingController controller;
   final String? errorText;
   final TextInputType inputType;
+  final int? maxLines;
+  final bool? expands;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -46,6 +50,9 @@ class _OutlineLabelTextFieldState extends ConsumerState<OutlineLabelTextField> {
           margin: const EdgeInsets.only(top: 8),
           child: TextFormField(
             controller: widget.controller,
+            keyboardType: widget.inputType,
+            maxLines: widget.maxLines,
+            expands: widget.expands ?? false,
             style: const TextStyle(
               color: Color(primaryTextColor),
               fontSize: 14,

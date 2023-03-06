@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:internity/features/login/provider/auth_provider.dart';
+import 'package:internity/pages/edit_profile_pages.dart';
 import 'package:internity/pages/vacancie_pages.dart';
 import 'package:internity/pages/vacancies_status_pages.dart';
 import 'package:internity/shared/riverpod_and_hooks.dart';
@@ -109,6 +110,7 @@ class _MyAppState extends ConsumerState<MyApp> {
         '/vacancie-detail': (context) => const VacanciePages(),
         '/change-password': (context) => ChangePasswordPages(),
         '/presences': (context) => const PresencesPages(),
+        '/edit-profile': (context) => EditProfilePages(),
       },
     );
   }

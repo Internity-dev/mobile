@@ -31,8 +31,6 @@ class _RegisterItemWidgetState extends ConsumerState<RegisterItemWidget> {
     final isLoading = useState(false);
     final ValueNotifier<ErrorValidationModel?> errorValidation = useState(null);
 
-    print(errorValidation.value != null);
-
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 80),
       child: Column(

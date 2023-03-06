@@ -94,24 +94,28 @@ class ProfileItemWidget extends HookConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Row(
-                      children: const [
-                        Icon(
-                          Icons.edit,
-                          color: Color(secondaryBackgroundColor),
-                          size: 20,
-                        ),
-                        Text(
-                          textAlign: TextAlign.center,
-                          'Edit Profile',
-                          style: TextStyle(
+                    GestureDetector(
+                      onTap: () =>
+                          Navigator.pushNamed(context, '/edit-profile'),
+                      child: Row(
+                        children: const [
+                          Icon(
+                            Icons.edit,
                             color: Color(secondaryBackgroundColor),
-                            fontSize: 14,
-                            decoration: TextDecoration.underline,
-                            fontWeight: FontWeight.bold,
+                            size: 20,
                           ),
-                        ),
-                      ],
+                          Text(
+                            textAlign: TextAlign.center,
+                            'Edit Profile',
+                            style: TextStyle(
+                              color: Color(secondaryBackgroundColor),
+                              fontSize: 14,
+                              decoration: TextDecoration.underline,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     // Row(
                     //   children: const [
