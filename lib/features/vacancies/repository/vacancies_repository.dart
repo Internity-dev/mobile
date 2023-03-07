@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../../../shared/provider/dio_provider.dart';
 import '../../../shared/riverpod_and_hooks.dart';
+import '../model/change_intern_date_model.dart';
 import '../model/intern_regist_status_model.dart';
 import '../model/my_intern_model.dart';
 import '../model/recommended_vacancies_model.dart';
@@ -95,6 +96,11 @@ class VacanciesRepository {
   // Cancel Vacancie
   Future<void> cancelVacancie(int id) async {
     await dio.put('/api/appliances/$id/cancel');
+  }
+
+  // Change intern date
+  Future<void> changeInternDate(int id, ChangeInternDate data) async {
+    await dio.put('/api/appliances/$id/edit-date', data: data.toJson());
   }
 }
 

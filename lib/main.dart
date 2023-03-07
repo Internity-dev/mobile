@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:internity/features/login/provider/auth_provider.dart';
+import 'package:internity/pages/edit_intern_page.dart';
 import 'package:internity/pages/edit_profile_pages.dart';
 import 'package:internity/pages/vacancie_pages.dart';
 import 'package:internity/pages/vacancies_status_pages.dart';
@@ -117,6 +118,7 @@ class _MyAppState extends ConsumerState<MyApp> {
         'create-journal': (context) => CreateJournal(),
         '/notification': (context) => const NotificationPages(),
         '/news': (context) => const NewsPage(),
+        '/edit-intern-date': (context) => EditInternDate(),
       },
     );
   }

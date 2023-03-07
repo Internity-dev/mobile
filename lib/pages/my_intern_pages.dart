@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../features/vacancies/presentation/my_intern_widget.dart';
 
+import '../features/vacancies/provider/vacancies_provider.dart';
 import '../shared/riverpod_and_hooks.dart';
 import '../theme/colors.dart';
 
@@ -24,8 +25,14 @@ class MyInternPages extends HookConsumerWidget {
           ),
           titleSpacing: 0,
         ),
-        body: const SingleChildScrollView(
-          child: MyInternWidget(),
+        body: RefreshIndicator(
+          onRefresh: () async {
+            await ref.refresh(myInternProvider.future);
+          },
+          child: const SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            child: MyInternWidget(),
+          ),
         ),
       ),
     );
