@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.internity">
    <application
-        android:label="internity"
+        android:label="Internity"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
