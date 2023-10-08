@@ -1,5 +1,3 @@
-import 'package:dio/dio.dart';
-
 class PostUserModel {
   PostUserModel({
     required this.name,

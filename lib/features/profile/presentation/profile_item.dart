@@ -97,8 +97,8 @@ class ProfileItemWidget extends HookConsumerWidget {
                     GestureDetector(
                       onTap: () =>
                           Navigator.pushNamed(context, '/edit-profile'),
-                      child: Row(
-                        children: const [
+                      child: const Row(
+                        children: [
                           Icon(
                             Icons.edit,
                             color: Color(secondaryBackgroundColor),

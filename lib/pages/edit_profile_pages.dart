@@ -10,6 +10,7 @@ import 'package:internity/shared/riverpod_and_hooks.dart';
 import 'package:intl/intl.dart';
 
 import '../shared/widget/custom_app_bar.dart';
+import '../shared/widget/loading_button.dart';
 import '../shared/widget/outline_label_text_field.dart';
 import '../theme/colors.dart';
 
@@ -28,78 +29,39 @@ class _EditProfilePagesState extends ConsumerState<EditProfilePages> {
   Widget build(BuildContext context) {
     final userData = ref.watch(profileProvider);
 
-    final emailController = useTextEditingController();
-    final nameController = useTextEditingController();
-    final phoneController = useTextEditingController();
-    final addressController = useTextEditingController();
-    final aboutController = useTextEditingController();
-    final skillController = useTextEditingController();
-    final genderController = useState<String?>(null);
-
-    final image = useState<XFile?>(null);
-    final datePicked = useState<DateTime?>(null);
-
-    userData.maybeWhen(
-      data: (data) {
-        emailController.text = data.email;
-        nameController.text = data.name;
-        phoneController.text = data.phone ?? '';
-        addressController.text = data.address ?? '';
-        aboutController.text = data.bio ?? '';
-        skillController.text = data.skills ?? '';
-
-        genderController.value ??= data.gender;
-
-        if (data.dateOfBirth != null) {
-          datePicked.value = DateTime.parse(data.dateOfBirth!);
-        }
-      },
-      orElse: () {},
+    final emailController = useTextEditingController(
+      text: userData.requireValue.email,
+    );
+    final nameController = useTextEditingController(
+      text: userData.requireValue.name,
+    );
+    final phoneController = useTextEditingController(
+      text: userData.requireValue.phone ?? '',
+    );
+    final addressController = useTextEditingController(
+      text: userData.requireValue.address ?? '',
+    );
+    final aboutController = useTextEditingController(
+      text: userData.requireValue.bio ?? '',
+    );
+    final skillController = useTextEditingController(
+      text: userData.requireValue.skills ?? '',
+    );
+    final genderController = useState<String?>(
+      userData.requireValue.gender,
     );
 
+    final image = useState<XFile?>(null);
+    final datePicked = useState<DateTime?>(
+      userData.requireValue.dateOfBirth != null
+          ? DateTime.parse(userData.requireValue.dateOfBirth!)
+          : null,
+    );
+
+    final isLoading = useState(false);
+
     return Scaffold(
-      appBar: CustomBackButton(
-        actions: [
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: GestureDetector(
-                onTap: () {
-                  PostUserModel data = PostUserModel(
-                    name: nameController.text,
-                    email: emailController.text,
-                    phone: phoneController.text,
-                    address: addressController.text,
-                    bio: aboutController.text,
-                    skills: skillController.text,
-                    dateOfBirth: datePicked != null
-                        ? DateFormat('yyyy-MM-dd').format(datePicked.value!)
-                        : null,
-                    gender: genderController.value,
-                  );
-
-                  if (image.value != null) {
-                    ref.read(uploadProfilePictureProvider(
-                        MultipartFile.fromFileSync(image.value!.path)));
-                  }
-
-                  final result = ref.read(editProfileProvider(data).future);
-
-                  result.then((value) => ref.refresh(profileProvider));
-                },
-                child: const Text(
-                  'Simpan',
-                  style: TextStyle(
-                    color: Color(primaryTextColor),
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+      appBar: const CustomBackButton(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(bottom: 20),
         child: Container(
@@ -269,8 +231,6 @@ class _EditProfilePagesState extends ConsumerState<EditProfilePages> {
                                       onChanged: (value) {
                                         if (value is String) {
                                           genderController.value = value;
-
-                                          print(genderController.value);
                                         }
                                       },
                                       value: genderController.value,
@@ -388,6 +348,54 @@ class _EditProfilePagesState extends ConsumerState<EditProfilePages> {
                                   helperText:
                                       'Pisahkan Dengan koma ex: vuejs,flutter',
                                 ),
+                              ),
+                              LoadingButton(
+                                text: 'Kirim',
+                                onPressed: () {
+                                  isLoading.value = true;
+
+                                  PostUserModel data = PostUserModel(
+                                    name: nameController.text,
+                                    email: emailController.text,
+                                    phone: phoneController.text,
+                                    address: addressController.text,
+                                    bio: aboutController.text,
+                                    skills: skillController.text,
+                                    dateOfBirth: datePicked.value != null
+                                        ? DateFormat('yyyy-MM-dd')
+                                            .format(datePicked.value!)
+                                        : null,
+                                    gender: genderController.value,
+                                  );
+
+                                  if (image.value != null) {
+                                    ref.read(uploadProfilePictureProvider(
+                                        MultipartFile.fromFileSync(
+                                            image.value!.path)));
+                                  }
+
+                                  final result = ref
+                                      .read(editProfileProvider(data).future);
+
+                                  result.then((value) {
+                                    ref.refresh(profileProvider);
+                                    isLoading.value = false;
+                                  });
+
+                                  result.onError((error, stackTrace) {
+                                    isLoading.value = false;
+                                  });
+                                },
+                                isGradient: true,
+                                gradient: const LinearGradient(
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                  colors: [
+                                    Color(0xFF1090FF),
+                                    Color(0xFF01C1FF),
+                                  ],
+                                ),
+                                isLoading: isLoading.value,
                               ),
                             ],
                           ),
