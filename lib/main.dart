@@ -9,7 +9,7 @@ import 'package:internity/pages/vacancie_pages.dart';
 import 'package:internity/pages/vacancies_status_pages.dart';
 import 'package:internity/shared/riverpod_and_hooks.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
+// import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 

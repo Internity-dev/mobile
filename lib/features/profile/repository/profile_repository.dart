@@ -27,8 +27,8 @@ class ProfileRepository {
       UserModel jsonResult = UserModel.fromJson(response.data);
 
       return jsonResult;
-    } on DioError catch (e) {
-      throw e.message;
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ?? 'Something went wrong';
     }
   }
 

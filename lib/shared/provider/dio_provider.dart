@@ -5,24 +5,26 @@ import '../../shared/riverpod_and_hooks.dart';
 
 final dioProvider = Provider<Dio>((ref) {
   final dio = Dio();
-  dio.options.baseUrl = 'http://172.20.4.2:8000/';
-  // dio.options.connectTimeout = 5000;
-  // dio.options.receiveTimeout = 3000;
+  dio.options.baseUrl = 'http://192.168.8.101:8000/';
+  // dio.options.connectTimeout = const Duration(seconds: 5);
+  // dio.options.receiveTimeout = const Duration(seconds: 3);
   dio.options.headers['Accept'] = 'application/json';
 
   dio.interceptors.add(InterceptorsWrapper(
-    onError: (DioError e, handler) async {
+    onError: (DioException e, handler) async {
       if (e.response?.statusCode == 401) {
         final prefs = await ref.watch(sharedPrefProvider);
         prefs.remove('token');
       }
 
-      return handler.next(DioError(
+      return handler.next(DioException(
         requestOptions: e.requestOptions,
         error: e.response?.data['message'] ??
             'Something went wrong or Server is Bussy',
         type: e.type,
         response: e.response,
+        stackTrace: e.stackTrace,
+        message: e.message,
       ));
     },
     onRequest: (options, handler) async {
