@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:internity/features/upload_cv/presentation/upload_cv_widget.dart';
 import 'package:internity/theme/colors.dart';
 
+import '../features/daily_activity/provider/daily_activity_provider.dart';
 import '../features/login/provider/auth_provider.dart';
 import '../features/news/presentation/news_slider_widget.dart';
 import '../features/news/provider/news_provider.dart';
@@ -28,11 +29,11 @@ class _HomePagesState extends ConsumerState<HomePages> {
       child: Scaffold(
         body: RefreshIndicator(
           onRefresh: () async {
-            await ref.refresh(vacanciesProvider.future);
             await ref.refresh(recommendedVacanciesProvider.future);
             await ref.refresh(newsProvider.future);
           },
           child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
             padding: const EdgeInsets.only(bottom: 50),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,41 +97,41 @@ class _HomePagesState extends ConsumerState<HomePages> {
                       ),
 
                       // Search Bar
-                      // Container(
-                      //   margin: const EdgeInsets.only(top: 20),
-                      //   child: TextField(
-                      //     style: const TextStyle(
-                      //       color: Color(primaryTextColor),
-                      //       fontSize: 12,
-                      //     ),
-                      //     decoration: InputDecoration(
-                      //       hintText: 'Cari tempat magang',
-                      //       hintStyle: const TextStyle(
-                      //         color: Color(primaryTextColor),
-                      //         fontSize: 12,
-                      //       ),
-                      //       prefixIcon: const Icon(
-                      //         Icons.search,
-                      //         color: Color(primaryTextColor),
-                      //       ),
-                      //       prefixIconConstraints: const BoxConstraints(
-                      //         minWidth: 40,
-                      //       ),
-                      //       filled: true,
-                      //       fillColor: const Color(secondaryBackgroundColor),
-                      //       contentPadding: const EdgeInsets.symmetric(
-                      //           horizontal: 20, vertical: 10),
-                      //       enabledBorder: OutlineInputBorder(
-                      //         borderRadius: BorderRadius.circular(10),
-                      //         borderSide: BorderSide.none,
-                      //       ),
-                      //       focusedBorder: OutlineInputBorder(
-                      //         borderRadius: BorderRadius.circular(10),
-                      //         borderSide: BorderSide.none,
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
+                      Container(
+                        margin: const EdgeInsets.only(top: 20),
+                        child: TextField(
+                          style: const TextStyle(
+                            color: Color(primaryTextColor),
+                            fontSize: 12,
+                          ),
+                          decoration: InputDecoration(
+                            hintText: 'Cari tempat magang',
+                            hintStyle: const TextStyle(
+                              color: Color(primaryTextColor),
+                              fontSize: 12,
+                            ),
+                            prefixIcon: const Icon(
+                              Icons.search,
+                              color: Color(primaryTextColor),
+                            ),
+                            prefixIconConstraints: const BoxConstraints(
+                              minWidth: 40,
+                            ),
+                            filled: true,
+                            fillColor: const Color(secondaryBackgroundColor),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none,
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide.none,
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -326,92 +327,6 @@ class _HomePagesState extends ConsumerState<HomePages> {
                     loading: () =>
                         const Center(child: CircularProgressIndicator())),
 
-                // Activity List Today
-                userData.when(
-                    data: (data) {
-                      if (data.inInternship) {
-                        return Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 25),
-                          margin: const EdgeInsets.only(top: 20),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Aktivitas Hari Ini',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-
-                              // Activity Item
-                              Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      margin: const EdgeInsets.only(top: 20),
-                                      padding: const EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                          color: const Color(0xFFE9B207),
-                                        ),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: Container(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: const [
-                                                  Text(
-                                                    'Absen Masuk',
-                                                    style: TextStyle(
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    'Tenggat waktu 12 Januari 08:20',
-                                                    style: TextStyle(
-                                                      fontSize: 12,
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-
-                                          // Icon
-                                          Container(
-                                            margin:
-                                                const EdgeInsets.only(left: 10),
-                                            child: const Icon(
-                                              Icons.warning_amber_outlined,
-                                              color: Color(0xFFE9B207),
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      } else {
-                        return const SizedBox();
-                      }
-                    },
-                    error: (error, stack) =>
-                        Center(child: Text(error.toString())),
-                    loading: () =>
-                        const Center(child: CircularProgressIndicator())),
-
                 // News Slider
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
@@ -505,7 +420,7 @@ class _HomePagesState extends ConsumerState<HomePages> {
                                                 Expanded(
                                                   child: Container(
                                                     margin: const EdgeInsets
-                                                            .symmetric(
+                                                        .symmetric(
                                                         horizontal: 10),
                                                     child: Column(
                                                       crossAxisAlignment:

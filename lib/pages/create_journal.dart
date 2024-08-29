@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:internity/features/change_password/model/error_validation_model.dart';
-import 'package:internity/features/journal/model/post_journal_model.dart';
+import '../features/change_password/model/error_validation_model.dart';
+import '../features/journal/model/post_journal_model.dart';
+import '../features/profile/provider/profile_provider.dart';
+import '../shared/widget/loading_button.dart';
 
+import '../features/daily_activity/provider/daily_activity_provider.dart';
 import '../features/journal/provider/journal_provider.dart';
 import '../shared/riverpod_and_hooks.dart';
 import '../shared/widget/custom_app_bar.dart';
@@ -26,87 +29,69 @@ class _CreateJournalState extends ConsumerState<CreateJournal> {
     final isLoading = useState(false);
     final ValueNotifier<ErrorValidationModel?> errorValidation = useState(null);
 
-    return Stack(children: [
-      GestureDetector(
-        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: Scaffold(
-          appBar: CustomBackButton(
-            actions: [
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: GestureDetector(
-                    onTap: () {
-                      PostJournal data = PostJournal(
-                        description: descriptionController.text,
-                        workType: workTypeController.text,
-                      );
+    final userData = ref.watch(profileProvider);
 
-                      isLoading.value = true;
-
-                      final result = ref.read(postJournalProvider(data).future);
-
-                      result.then((value) => isLoading.value = false);
-                      result.onError((error, stackTrace) {
-                        if (error is ErrorValidationModel) {
-                          errorValidation.value = error;
-                        }
-
-                        isLoading.value = false;
-                      });
-                    },
-                    child: const Text(
-                      'Simpan',
-                      style: TextStyle(
-                        color: Color(primaryTextColor),
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+    return Scaffold(
+      appBar: const CustomBackButton(),
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          child: Form(
+            key: widget.formKey,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: OutlineLabelTextField(
+                    controller: workTypeController,
+                    inputType: TextInputType.text,
+                    outlineLabel: 'Jenis Pekerjaan',
                   ),
                 ),
-              ),
-            ],
-          ),
-          body: SingleChildScrollView(
-              child: Container(
-            padding: const EdgeInsets.all(16),
-            child: Form(
-              key: widget.formKey,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: OutlineLabelTextField(
-                      controller: workTypeController,
-                      inputType: TextInputType.text,
-                      outlineLabel: 'Jenis Pekerjaan',
-                    ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: OutlineLabelTextField(
+                    controller: descriptionController,
+                    inputType: TextInputType.text,
+                    outlineLabel: 'Deskripsi Pekerjaan',
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: OutlineLabelTextField(
-                      controller: descriptionController,
-                      inputType: TextInputType.text,
-                      outlineLabel: 'Deskripsi Pekerjaan',
-                    ),
-                  ),
-                ],
-              ),
+                ),
+                LoadingButton(
+                  onPressed: () {
+                    isLoading.value = true;
+
+                    userData.maybeWhen(
+                        data: (data) {
+                          final activityData = ref.read(
+                              dailyActivityProvider(data.activeCompany!)
+                                  .future);
+
+                          activityData.then((value) {
+                            PostJournal data = PostJournal(
+                              description: descriptionController.text,
+                              workType: workTypeController.text,
+                              activityId: value.journal?.id,
+                            );
+
+                            ref.read(postJournalProvider(data).future).then(
+                                (value) => {
+                                      isLoading.value = false,
+                                      Navigator.pop(context)
+                                    });
+                          });
+                        },
+                        orElse: () {});
+                  },
+                  text: 'Kirim',
+                  isGradient: false,
+                  backgroundColor: Color(primaryColor),
+                  isLoading: isLoading.value,
+                )
+              ],
             ),
-          )),
+          ),
         ),
       ),
-
-      // Loading
-      isLoading.value
-          ? Container(
-              color: Colors.black.withOpacity(0.8),
-              child: const Center(
-                child: CircularProgressIndicator(),
-              ),
-            )
-          : const SizedBox(),
-    ]);
+    );
   }
 }

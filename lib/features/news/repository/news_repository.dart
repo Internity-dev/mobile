@@ -27,8 +27,8 @@ class NewsRepository {
       List<NewsModel> data = list.map((e) => NewsModel.fromJson(e)).toList();
 
       return data;
-    } on DioError catch (e) {
-      throw e.message;
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ?? 'Something went wrong';
     }
   }
 }

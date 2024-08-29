@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../features/vacancies/model/change_intern_date_model.dart';
 import '../features/vacancies/provider/vacancies_provider.dart';

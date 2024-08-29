@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:dartz/dartz.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:internity/features/profile/model/profile_model.dart';
 
 import '../../../shared/provider/dio_provider.dart';
@@ -37,8 +37,8 @@ class AuthRepository {
       prefs.setString('token', jsonResult.accessToken);
 
       return Right(jsonResult);
-    } on DioError catch (e) {
-      return Left(e.message);
+    } on DioException catch (e) {
+      return Left(e.message ?? 'Something went wrong');
     }
   }
 
@@ -58,7 +58,7 @@ class AuthRepository {
       UserModel jsonResult = UserModel.fromJson(response.data);
 
       return jsonResult;
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       return e.message;
     }
   }
@@ -81,8 +81,8 @@ class AuthRepository {
       prefs.remove('token');
 
       return Right(response.data);
-    } on DioError catch (e) {
-      return Left(e.message);
+    } on DioException catch (e) {
+      return Left(e.message ?? 'Something went wrong');
     }
   }
 }

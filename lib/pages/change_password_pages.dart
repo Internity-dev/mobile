@@ -50,7 +50,11 @@ class _ChangePasswordPagesState extends ConsumerState<ChangePasswordPages> {
                       final changePassword =
                           ref.read(changePasswordProvider(data).future);
 
-                      changePassword.then((value) => isLoading.value = false);
+                      changePassword.then((value) {
+                        isLoading.value = false;
+                        Navigator.pop(context);
+                      });
+
                       changePassword.onError((error, stackTrace) {
                         if (error is ErrorValidationModel) {
                           errorValidation.value = error;

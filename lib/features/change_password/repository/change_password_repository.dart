@@ -20,7 +20,7 @@ class ChangePasswordRepository {
           await dio.put('/api/change-password', data: data.toJson());
 
       return response.data;
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       throw ErrorValidationModel.fromJson(e.response?.data);
     }
   }
