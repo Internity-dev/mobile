@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 
+import '../../../shared/model/api_result.dart';
 import '../../../shared/provider/dio_provider.dart';
 
 import '../../../shared/riverpod_and_hooks.dart';
@@ -11,7 +12,7 @@ class NewsRepository {
   final Ref ref;
   final Dio dio;
 
-  Future<List<NewsModel>> getNews() async {
+  Future<Result<List<NewsModel>>> getNews() async {
     try {
       final response = await dio.get(
         '/api/news',
@@ -23,12 +24,21 @@ class NewsRepository {
         ),
       );
 
-      Iterable list = response.data['news']['data'];
-      List<NewsModel> data = list.map((e) => NewsModel.fromJson(e)).toList();
+      if (response.statusCode == 204) {
+        return Result(error: 'No data found');
+      }
 
-      return data;
+      if (response.statusCode != 200) {
+        return Result(
+            error: response.data['message'] ?? 'Something went wrong');
+      } else {
+        Iterable list = response.data['news']['data'];
+        List<NewsModel> data = list.map((e) => NewsModel.fromJson(e)).toList();
+        return Result(data: data);
+      }
     } on DioException catch (e) {
-      throw e.response?.data['message'] ?? 'Something went wrong';
+      return Result(
+          error: e.response?.data['message'] ?? 'Something went wrong');
     }
   }
 }
