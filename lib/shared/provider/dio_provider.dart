@@ -5,7 +5,7 @@ import '../../shared/riverpod_and_hooks.dart';
 
 final dioProvider = Provider<Dio>((ref) {
   final dio = Dio();
-  dio.options.baseUrl = 'http://192.168.8.101:8000/';
+  dio.options.baseUrl = 'https://admin.internity.smkn1cibinong.sch.id/';
   // dio.options.connectTimeout = const Duration(seconds: 5);
   // dio.options.receiveTimeout = const Duration(seconds: 3);
   dio.options.headers['Accept'] = 'application/json';
