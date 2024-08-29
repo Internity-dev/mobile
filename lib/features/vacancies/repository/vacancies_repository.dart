@@ -25,8 +25,8 @@ class VacanciesRepository {
           list.map((e) => VacanciesModel.fromJson(e)).toList();
 
       return data;
-    } on DioError catch (e) {
-      throw e.message;
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ?? 'Something went wrong';
     }
   }
 
@@ -40,8 +40,8 @@ class VacanciesRepository {
           list.map((e) => RecommendedVacanciesModel.fromJson(e)).toList();
 
       return data;
-    } on DioError catch (e) {
-      throw e.message;
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ?? 'Something went wrong';
     }
   }
 
@@ -55,8 +55,8 @@ class VacanciesRepository {
           list.map((e) => InternRegistStatusModel.fromJson(e)).toList();
 
       return data;
-    } on DioError catch (e) {
-      throw e.message;
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ?? 'Something went wrong';
     }
   }
 
@@ -70,8 +70,8 @@ class VacanciesRepository {
           list.map((e) => MyInternModel.fromJson(e)).toList();
 
       return data;
-    } on DioError catch (e) {
-      throw e.message;
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ?? 'Something went wrong';
     }
   }
 
@@ -83,8 +83,8 @@ class VacanciesRepository {
       VacancieModel data = VacancieModel.fromJson(response.data['vacancy']);
 
       return data;
-    } on DioError catch (e) {
-      throw e.message;
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ?? 'Something went wrong';
     }
   }
 

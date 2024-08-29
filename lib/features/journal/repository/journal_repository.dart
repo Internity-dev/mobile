@@ -29,17 +29,13 @@ class JournalRepository {
           list.map((e) => JournalModel.fromJson(e)).toList();
 
       return data;
-    } on DioError catch (e) {
-      throw e.message;
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ?? 'Something went wrong';
     }
   }
 
   Future<void> postJournal(PostJournal data) {
-    print(data.toJson());
-
-    return Future.value();
-
-    // return dio.put('/presences', data: data.toJson());
+    return dio.put('/api/journals/${data.activityId}', data: data.toJson());
   }
 }
 

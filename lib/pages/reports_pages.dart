@@ -50,12 +50,12 @@ class ReportsPages extends HookConsumerWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                result.workType,
+                                result.workType ?? 'Tidak Ada Data',
                                 style: const TextStyle(
                                     fontSize: 14, fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                result.description,
+                                result.description ?? 'Tidak Ada Data',
                                 style: const TextStyle(fontSize: 12),
                               ),
                               Text(result.date,

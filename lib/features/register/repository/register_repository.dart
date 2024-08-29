@@ -21,7 +21,7 @@ class RegisterRepository {
       prefs.setString('token', response.data['access_token']);
 
       return response.data;
-    } on DioError catch (e) {
+    } on DioException catch (e) {
       throw ErrorValidationModel.fromJson(e.response?.data);
     }
   }

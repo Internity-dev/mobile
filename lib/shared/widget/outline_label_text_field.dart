@@ -51,8 +51,6 @@ class _OutlineLabelTextFieldState extends ConsumerState<OutlineLabelTextField> {
           child: TextFormField(
             controller: widget.controller,
             keyboardType: widget.inputType,
-            maxLines: widget.maxLines,
-            expands: widget.expands ?? false,
             style: const TextStyle(
               color: Color(primaryTextColor),
               fontSize: 14,

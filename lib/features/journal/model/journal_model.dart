@@ -15,8 +15,8 @@ class JournalModel {
   late final int companyId;
   late final int userId;
   late final String date;
-  late final String workType;
-  late final String description;
+  late final String? workType;
+  late final String? description;
   late final bool isApproved;
   late final String createdAt;
   late final String updatedAt;
